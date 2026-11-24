@@ -1,0 +1,3157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="carbon">
+  <title>Clean Sri Lanka Digital Complaint Management System</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Carbon light ramp) */
+      --background: #ffffff;
+      --surface-container-low: #f4f4f4;
+      --surface-container: #f4f4f4;
+      --surface-container-high: #e0e0e0;
+      --surface-dark: #111111;
+      --surface-dark-elevated: #1c1c1c;
+
+      /* Ink */
+      --on-surface: #111111;
+      --on-surface-variant: #525252;
+      --on-dark: #ffffff;
+      --on-dark-muted: #c6c6c6;
+
+      /* Rules */
+      --outline: #8d8d8d;
+      --outline-variant: #e0e0e0;
+      --outline-dark: #393939;
+
+      /* Clean Sri Lanka requested brand colors & accessible ink pairings */
+      --brand-green: #7AC114;
+      --brand-green-hover: #69a80f;
+      --brand-green-ink: #3c6304;
+      --brand-green-tint: #eef7df;
+      --brand-blue: #0C92CB;
+      --brand-blue-hover: #097aa9;
+      --brand-blue-ink: #076994;
+      --brand-blue-tint: #e3f4fc;
+
+      /* Carbon semantic tokens mapped to Clean Sri Lanka palette */
+      --primary: var(--brand-blue-ink);
+      --on-primary: #ffffff;
+      --primary-container: var(--brand-blue-tint);
+      --on-primary-container: #111111;
+      --secondary: #525252;
+      --tertiary: var(--brand-green-ink);
+      --positive: var(--brand-green-ink);
+      --warning: #8a5300;
+      --warning-surface: #fdf3dc;
+      --error: #c51923;
+      --error-surface: #fff1f1;
+      --on-error: #ffffff;
+      --focus: var(--brand-blue);
+
+      /* Data series */
+      --data-1: var(--brand-blue);
+      --data-2: var(--brand-green);
+      --data-3: #111111;
+      --data-4: #6f6f6f;
+      --data-context: #c6c6c6;
+
+      /* Hero & map tokens */
+      --hero-scrim-start: rgba(17, 17, 17, 0.88);
+      --hero-scrim-mid: rgba(17, 17, 17, 0.72);
+      --hero-scrim-end: rgba(12, 146, 203, 0.28);
+      --map-ocean: #eaf4f9;
+      --map-land: #ffffff;
+      --map-land-stroke: #8d8d8d;
+      --map-grid: #d4e4ec;
+      --map-pin-ring: rgba(122, 193, 20, 0.28);
+
+      /* Typography */
+      --font-headline: 'IBM Plex Sans', sans-serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+      --font-label: 'IBM Plex Mono', monospace;
+
+      --display-size: clamp(1.75rem, 1.4rem + 1.3vw, 2.375rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Effects */
+      --shadow-1: 0 2px 6px rgba(0, 0, 0, 0.12);
+      --shadow-2: 0 6px 18px rgba(0, 0, 0, 0.16);
+      --rule: 1px solid var(--outline-variant);
+      --field-rule: 1px solid var(--outline);
+      --indicator-blue: 3px solid var(--brand-blue);
+      --indicator-green: 3px solid var(--brand-green);
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+    [hidden] { display: none !important; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Top Institutional Header & Tab Navigation */
+    .site-header {
+      background: var(--background);
+      border-bottom: var(--rule);
+      border-top: 4px solid var(--brand-green);
+    }
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: var(--space-md) var(--space-lg) 0 var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .brand-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .brand-logo-wrap {
+      width: 48px;
+      height: 48px;
+      background: var(--surface-container-low);
+      border: var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: var(--space-xs);
+    }
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .brand-logo-fallback {
+      width: 36px;
+      height: 36px;
+      color: var(--brand-green-ink);
+    }
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+    .brand-org {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--brand-blue-ink);
+    }
+    .brand-system {
+      font-family: var(--font-headline);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      line-height: 1.2;
+    }
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      background: var(--surface-container-low);
+      padding: var(--space-xs) var(--space-sm);
+      border-left: var(--indicator-green);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--brand-green);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      border-top: var(--rule);
+      padding-top: var(--space-xs);
+    }
+    .nav-tab {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      border-bottom: 3px solid transparent;
+      padding: var(--space-sm) var(--space-md);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      font-weight: 500;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .nav-tab:hover {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+    .nav-tab.is-active {
+      color: var(--on-surface);
+      font-weight: 600;
+      border-bottom: var(--indicator-blue);
+      background: var(--surface-container-low);
+    }
+    .nav-badge {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      padding: 0 var(--space-xs);
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+      line-height: 1.5;
+    }
+    .nav-tab.is-active .nav-badge {
+      background: var(--brand-green);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    .page-shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+    .page-shell * { min-width: 0; }
+
+    /* Shared Typography & Structural Classes */
+    .mono-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-surface-variant);
+    }
+    .mono-value {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: var(--rule);
+      margin-bottom: var(--space-lg);
+    }
+    .section-title {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 300;
+      line-height: 1.2;
+      margin: var(--space-xs) 0 0 0;
+      color: var(--on-surface);
+    }
+    .section-title strong { font-weight: 600; }
+    .section-subtitle {
+      margin: var(--space-xs) 0 0 0;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      font-size: var(--body-size);
+    }
+
+    /* Buttons */
+    .btn {
+      appearance: none;
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      font-weight: 500;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: 0;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .btn-primary-green {
+      background: var(--brand-green);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+    .btn-primary-green:hover:not(:disabled) {
+      background: var(--brand-green-hover);
+    }
+    .btn-primary-blue {
+      background: var(--primary);
+      color: var(--on-primary);
+      font-weight: 500;
+    }
+    .btn-primary-blue:hover:not(:disabled) {
+      background: var(--brand-blue-hover);
+    }
+    .btn-secondary {
+      background: var(--background);
+      color: var(--on-surface);
+      border-color: var(--on-surface);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container-low);
+    }
+    .btn-on-dark-outline {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: var(--brand-blue);
+    }
+    .btn-on-dark-outline:hover:not(:disabled) {
+      background: var(--surface-dark-elevated);
+    }
+    .btn-sm {
+      min-height: 36px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.875rem;
+    }
+
+    /* Surface Layers (Carbon style) */
+    .layer {
+      background: var(--surface-container);
+      padding: var(--space-lg);
+      border-radius: 0;
+    }
+    .layer-nested {
+      background: var(--surface-container-high);
+      padding: var(--space-md);
+    }
+    .layer-white {
+      background: var(--background);
+      border: var(--rule);
+      padding: var(--space-lg);
+    }
+
+    /* ============================================================
+       VIEW 1: OVERVIEW (Shown strictly by default)
+       ============================================================ */
+    .hero-banner {
+      position: relative;
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      overflow: hidden;
+      min-height: 360px;
+      display: flex;
+      align-items: stretch;
+      border-left: 6px solid var(--brand-green);
+    }
+    .hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .hero-skyline-fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      color: var(--outline-dark);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, var(--hero-scrim-start) 0%, var(--hero-scrim-mid) 58%, var(--hero-scrim-end) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-xl) var(--space-xl);
+      max-width: 780px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-md);
+    }
+    .hero-eyebrow {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-green);
+      font-weight: 600;
+    }
+    .hero-title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 300;
+      line-height: 1.15;
+      margin: 0;
+      color: var(--on-dark);
+    }
+    .hero-title strong {
+      font-weight: 600;
+    }
+    .hero-desc {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--on-dark-muted);
+      font-size: var(--subhead-size);
+      line-height: 1.5;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .kpi-tile {
+      background: var(--surface-container);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      border-bottom: var(--rule);
+    }
+    .kpi-tile.is-blue { border-bottom: var(--indicator-blue); }
+    .kpi-tile.is-green { border-bottom: var(--indicator-green); }
+    .kpi-number {
+      font-family: var(--font-label);
+      font-size: 2.125rem;
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-note {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Overview 2-Column Asymmetric Content */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+      align-items: start;
+    }
+    .workflow-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .workflow-step {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-top: var(--rule);
+    }
+    .workflow-step:first-child { border-top: 0; padding-top: 0; }
+    .step-num {
+      width: 32px;
+      height: 32px;
+      background: var(--on-surface);
+      color: var(--on-dark);
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-num.is-green {
+      background: var(--brand-green);
+      color: var(--on-surface);
+    }
+    .step-num.is-blue {
+      background: var(--brand-blue);
+      color: var(--on-surface);
+    }
+    .step-title {
+      font-weight: 600;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+    .step-desc {
+      margin: 0;
+      color: var(--on-surface-variant);
+      font-size: 0.9375rem;
+    }
+    .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .cat-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--background);
+      border: var(--rule);
+      color: var(--on-surface);
+    }
+    .privacy-callout {
+      margin-top: var(--space-lg);
+      background: var(--background);
+      border-left: var(--indicator-blue);
+      padding: var(--space-md);
+    }
+
+    /* ============================================================
+       VIEW 2: REPORT ISSUE
+       ============================================================ */
+    .report-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      max-width: 960px;
+    }
+    .form-block {
+      background: var(--surface-container);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      border-top: 2px solid var(--on-surface);
+    }
+    .form-block-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: var(--rule);
+    }
+    .form-block-title {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      margin: 0;
+    }
+    .field-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .field-req {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--brand-blue-ink);
+      font-weight: 500;
+    }
+    .field-input,
+    .field-select,
+    .field-textarea {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      background: var(--background);
+      border: 0;
+      border-bottom: var(--field-rule);
+      border-radius: 0;
+      padding: var(--space-sm) var(--space-md);
+      min-height: 44px;
+      transition: box-shadow var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .field-select {
+      padding-right: var(--space-xl);
+    }
+    .field-textarea {
+      min-height: 112px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .field-input.has-error,
+    .field-select.has-error,
+    .field-textarea.has-error {
+      border-bottom: 2px solid var(--error);
+    }
+    .field-error {
+      font-size: 0.8125rem;
+      color: var(--error);
+      font-weight: 500;
+    }
+    .field-hint {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Photo Upload Zone */
+    .upload-zone {
+      background: var(--background);
+      border: 1px dashed var(--outline);
+      padding: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .upload-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .upload-thumb {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border: var(--rule);
+      background: var(--surface-container-low);
+      flex-shrink: 0;
+    }
+
+    /* Hide Identity Toggle */
+    .toggle-row {
+      background: var(--background);
+      padding: var(--space-md);
+      border-left: var(--indicator-green);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .switch-control {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .switch-input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+    }
+    .switch-track {
+      width: 48px;
+      height: 26px;
+      background: var(--surface-container-high);
+      border: 1px solid var(--outline);
+      position: relative;
+      display: inline-block;
+      transition: background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .switch-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: var(--on-surface);
+      transition: transform var(--dur-micro) var(--ease-in-out);
+    }
+    .switch-input:checked + .switch-track {
+      background: var(--brand-green);
+      border-color: var(--brand-green-ink);
+    }
+    .switch-input:checked + .switch-track .switch-thumb {
+      transform: translateX(22px);
+    }
+    .switch-input:focus-visible + .switch-track {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .anon-notice {
+      background: var(--brand-green-tint);
+      color: var(--on-surface);
+      padding: var(--space-sm) var(--space-md);
+      border-left: var(--indicator-green);
+      font-size: 0.875rem;
+    }
+
+    /* Interactive GPS Map Pinpoint */
+    .gps-panel {
+      background: var(--background);
+      border: var(--rule);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .gps-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .gps-coords-readout {
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      background: var(--surface-container-low);
+      padding: var(--space-xs) var(--space-sm);
+      border-left: var(--indicator-blue);
+      color: var(--on-surface);
+    }
+    .gps-map-stage {
+      position: relative;
+      width: 100%;
+      min-height: 320px;
+      height: 340px;
+      background: var(--map-ocean);
+      border: var(--rule);
+      overflow: hidden;
+      cursor: crosshair;
+      user-select: none;
+    }
+    .gps-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .map-grid-line {
+      stroke: var(--map-grid);
+      stroke-width: 1;
+    }
+    .map-island-path {
+      fill: var(--map-land);
+      stroke: var(--map-land-stroke);
+      stroke-width: 1.5;
+    }
+    .map-province-line {
+      fill: none;
+      stroke: var(--outline-variant);
+      stroke-width: 1;
+      stroke-dasharray: 4 3;
+    }
+    .map-city-dot {
+      fill: var(--on-surface-variant);
+    }
+    .map-city-label {
+      font-family: var(--font-label);
+      font-size: 10px;
+      fill: var(--on-surface-variant);
+    }
+    .map-pin-halo {
+      fill: var(--map-pin-ring);
+      stroke: var(--brand-green);
+      stroke-width: 1.5;
+    }
+    .map-pin-core {
+      fill: var(--brand-blue);
+      stroke: var(--on-surface);
+      stroke-width: 2;
+    }
+    .map-crosshair {
+      stroke: var(--brand-blue);
+      stroke-width: 1;
+      stroke-dasharray: 4 3;
+      opacity: 0.7;
+    }
+    .map-attribution {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Submit Row directly below Location & GPS Pinpoint */
+    .submit-bar {
+      background: var(--surface-container-high);
+      padding: var(--space-md) var(--space-lg);
+      border-top: 2px solid var(--brand-green);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .submit-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+    .inline-banner {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--surface-container-low);
+      border-left: 4px solid var(--brand-green);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .inline-banner.is-error {
+      background: var(--error-surface);
+      border-left-color: var(--error);
+    }
+
+    /* ============================================================
+       VIEW 3: COMPLAINT STATUS TRACKER
+       ============================================================ */
+    .tracker-search-bar {
+      background: var(--surface-container);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .tracker-input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-md);
+      align-items: end;
+      max-width: 680px;
+    }
+    .quick-refs {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .ref-chip {
+      appearance: none;
+      background: var(--background);
+      border: var(--rule);
+      padding: var(--space-xs) var(--space-sm);
+      min-height: 36px;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      cursor: pointer;
+      transition: border-color var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .ref-chip:hover {
+      background: var(--brand-blue-tint);
+      border-color: var(--brand-blue);
+    }
+    .ref-chip.is-selected {
+      background: var(--on-surface);
+      color: var(--on-dark);
+      border-color: var(--on-surface);
+    }
+
+    /* Milestone Progress Bar */
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin: var(--space-lg) 0;
+    }
+    .milestone-step {
+      background: var(--background);
+      border: var(--rule);
+      border-top: 4px solid var(--outline-variant);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .milestone-step.is-done {
+      border-top-color: var(--brand-green);
+    }
+    .milestone-step.is-current {
+      border-top-color: var(--brand-blue);
+      background: var(--brand-blue-tint);
+    }
+    .milestone-status-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .milestone-step.is-done .milestone-status-tag { color: var(--brand-green-ink); }
+    .milestone-step.is-current .milestone-status-tag { color: var(--brand-blue-ink); }
+
+    .detail-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-top: var(--rule);
+      border-bottom: var(--rule);
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+    .timeline-log {
+      display: flex;
+      flex-direction: column;
+      margin-top: var(--space-md);
+    }
+    .timeline-entry {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-top: var(--rule);
+    }
+    .timeline-entry:first-child { border-top: 0; }
+
+    /* Status Badges (Carbon pill tags) */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 var(--space-sm);
+      border-radius: var(--rounded-full);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .status-received {
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+    .status-assigned {
+      background: var(--brand-blue-tint);
+      color: var(--brand-blue-ink);
+    }
+    .status-updated {
+      background: var(--warning-surface);
+      color: var(--warning);
+    }
+    .status-resolved {
+      background: var(--brand-green);
+      color: var(--on-surface);
+    }
+
+    /* ============================================================
+       VIEW 4: ADMIN DASHBOARD
+       ============================================================ */
+    .admin-filters {
+      background: var(--surface-container);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .admin-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+      align-items: start;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: var(--rule);
+      background: var(--background);
+    }
+    .carbon-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .carbon-table th {
+      background: var(--surface-container-high);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      color: var(--on-surface);
+      border-bottom: 1px solid var(--outline);
+      white-space: nowrap;
+    }
+    .carbon-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--rule);
+      vertical-align: top;
+    }
+    .carbon-table tbody tr:nth-child(even) {
+      background: var(--surface-container-low);
+    }
+    .carbon-table tbody tr {
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .carbon-table tbody tr:hover {
+      background: var(--brand-blue-tint);
+    }
+    .carbon-table tbody tr.is-selected {
+      background: var(--brand-blue-tint);
+      box-shadow: inset 3px 0 0 var(--brand-blue);
+    }
+    .chart-panel {
+      margin-top: var(--space-lg);
+      background: var(--surface-container);
+      padding: var(--space-lg);
+    }
+    .bar-chart-rows {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr) 48px;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .bar-track {
+      height: 16px;
+      background: var(--surface-container-high);
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--brand-blue);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .bar-fill.is-green { background: var(--brand-green); }
+    .bar-fill.is-dark { background: var(--on-surface); }
+
+    /* Footer */
+    .site-footer {
+      border-top: var(--rule);
+      background: var(--surface-container-low);
+      margin-top: var(--space-xl);
+      padding: var(--space-lg);
+    }
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
+      .overview-grid,
+      .admin-workspace {
+        grid-template-columns: 1fr;
+      }
+      .admin-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .field-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .page-shell { padding: var(--space-md); }
+      .hero-content { padding: var(--space-lg) var(--space-md); }
+      .field-grid-2,
+      .admin-filters,
+      .tracker-input-row {
+        grid-template-columns: 1fr;
+      }
+      .milestone-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .timeline-entry {
+        grid-template-columns: 1fr;
+        gap: var(--space-xs);
+      }
+      .nav-tab {
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Institutional Header & Primary Tab Navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-bar">
+        <div class="brand-lockup">
+          <div class="brand-logo-wrap">
+            <img src="assets/logo.png" alt="Clean Sri Lanka logo" class="brand-logo-img" id="brand-logo-img" onerror="handleLogoFallback(this)">
+            <svg id="brand-logo-fallback" class="brand-logo-fallback" viewBox="0 0 36 36" fill="none" aria-hidden="true" hidden>
+              <rect x="2" y="2" width="32" height="32" stroke="currentColor" stroke-width="2.5"></rect>
+              <path d="M18 7C14 13 11 17 11 21.5C11 25.64 14.13 29 18 29C21.87 29 25 25.64 25 21.5C25 17 22 13 18 7Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <span class="brand-org">Clean Sri Lanka</span>
+            <span class="brand-system">Digital Complaint Management System</span>
+          </div>
+        </div>
+        <div class="header-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>9 PROVINCES · 25 DISTRICTS ACTIVE</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" role="tablist" aria-label="Primary System Navigation">
+        <button type="button" class="nav-tab is-active" role="tab" id="tab-overview" aria-selected="true" aria-controls="view-overview" onclick="switchView('overview')">
+          <span>Overview</span>
+        </button>
+        <button type="button" class="nav-tab" role="tab" id="tab-report" aria-selected="false" aria-controls="view-report" onclick="switchView('report')">
+          <span>Report Issue</span>
+        </button>
+        <button type="button" class="nav-tab" role="tab" id="tab-tracker" aria-selected="false" aria-controls="view-tracker" onclick="switchView('tracker')">
+          <span>Complaint Status Tracker</span>
+        </button>
+        <button type="button" class="nav-tab" role="tab" id="tab-admin" aria-selected="false" aria-controls="view-admin" onclick="switchView('admin')">
+          <span>Admin Dashboard</span>
+          <span class="nav-badge" id="nav-pending-badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+
+    <!-- ============================================================
+         SECTION 1: OVERVIEW (Strictly visible by default)
+         ============================================================ -->
+    <section id="view-overview" role="tabpanel" aria-labelledby="tab-overview">
+      <div class="hero-banner">
+        <img src="assets/colombo-bg.jpg" alt="Colombo skyline in Sri Lanka" class="hero-bg-img" id="hero-bg-img" onerror="handleHeroBgFallback(this)">
+        <svg id="hero-skyline-fallback" class="hero-skyline-fallback" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <rect x="640" y="150" width="44" height="210" fill="currentColor"></rect>
+          <rect x="698" y="110" width="56" height="250" fill="currentColor"></rect>
+          <rect x="768" y="175" width="48" height="185" fill="currentColor"></rect>
+          <path d="M862 360 L862 150 L876 150 L876 360 Z M869 40 L873 150 L865 150 Z" fill="currentColor"></path>
+          <ellipse cx="869" cy="148" rx="22" ry="11" fill="currentColor"></ellipse>
+          <rect x="920" y="135" width="64" height="225" fill="currentColor"></rect>
+          <rect x="998" y="185" width="52" height="175" fill="currentColor"></rect>
+          <rect x="1064" y="120" width="58" height="240" fill="currentColor"></rect>
+          <rect x="1134" y="195" width="46" height="165" fill="currentColor"></rect>
+        </svg>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-content">
+          <span class="hero-eyebrow">NATIONAL CIVIC MAINTENANCE PORTAL · SRI LANKA</span>
+          <h1 class="hero-title">Clean Sri Lanka <strong>Digital Complaint Management System</strong></h1>
+          <p class="hero-desc">Report public sanitation, street lighting, drainage, and civic infrastructure issues directly to your Municipal Council—with GPS pinpointing, optional anonymous reporting, and end-to-end milestone tracking.</p>
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary-green" onclick="switchView('report')">
+              <span>Report an Issue</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+            </button>
+            <button type="button" class="btn btn-on-dark-outline" onclick="switchView('tracker')">
+              <span>Track Complaint Status</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overview Live KPI Strip -->
+      <div class="kpi-grid" aria-label="National Complaint Telemetry">
+        <div class="kpi-tile is-blue">
+          <span class="mono-label">Total Logged Cases</span>
+          <span class="kpi-number" id="ov-kpi-total">0</span>
+          <span class="kpi-note">Across all 9 provinces</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="mono-label">Received · Awaiting Triage</span>
+          <span class="kpi-number" id="ov-kpi-received">0</span>
+          <span class="kpi-note">Queued for council review</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="mono-label">Assigned &amp; Updated</span>
+          <span class="kpi-number" id="ov-kpi-active">0</span>
+          <span class="kpi-note">Dispatched to field crews</span>
+        </div>
+        <div class="kpi-tile is-green">
+          <span class="mono-label">Resolved Cases</span>
+          <span class="kpi-number" id="ov-kpi-resolved">0</span>
+          <span class="kpi-note" id="ov-kpi-rate">0% closure rate</span>
+        </div>
+      </div>
+
+      <!-- Asymmetric 2-Column Overview Guidance -->
+      <div class="overview-grid">
+        <div class="layer">
+          <div class="section-head">
+            <div>
+              <span class="mono-label">01 · Citizen-to-Council Workflow</span>
+              <h2 class="section-title">How every complaint is <strong>tracked to resolution</strong></h2>
+            </div>
+          </div>
+          <div class="workflow-list">
+            <div class="workflow-step">
+              <div class="step-num is-green">01</div>
+              <div>
+                <h3 class="step-title">Received — Instant Reference Registration</h3>
+                <p class="step-desc">Citizens submit maintenance details, photo evidence, municipal council selection, and exact GPS pin coordinates. A unique reference number (<span class="mono-value">CSL-2026-XXXX</span>) is issued immediately.</p>
+              </div>
+            </div>
+            <div class="workflow-step">
+              <div class="step-num is-blue">02</div>
+              <div>
+                <h3 class="step-title">Assigned — Municipal Unit Dispatch</h3>
+                <p class="step-desc">Council officers triage incoming cases and assign responsibility to specialized engineering, sanitation, electrical, or road maintenance divisions.</p>
+              </div>
+            </div>
+            <div class="workflow-step">
+              <div class="step-num">03</div>
+              <div>
+                <h3 class="step-title">Updated — Transparent Field Progress</h3>
+                <p class="step-desc">Field officers post inspection findings, scheduled repair dates, and work-in-progress logs visible in real time inside the Complaint Status Tracker.</p>
+              </div>
+            </div>
+            <div class="workflow-step">
+              <div class="step-num is-green">04</div>
+              <div>
+                <h3 class="step-title">Resolved — Verified Closure</h3>
+                <p class="step-desc">Completed maintenance work is verified, logged with closure notes, and archived for municipal performance auditing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layer">
+          <div class="section-head">
+            <div>
+              <span class="mono-label">02 · Scope &amp; Citizen Safeguards</span>
+              <h2 class="section-title">Covered <strong>service domains</strong></h2>
+            </div>
+          </div>
+          <p class="section-subtitle">Select the matching category when filing a report so local authorities route your ticket without delay.</p>
+          <div class="category-chips">
+            <span class="cat-tag">Waste &amp; Sanitation</span>
+            <span class="cat-tag">Drainage &amp; Flooding</span>
+            <span class="cat-tag">Road &amp; Pavements</span>
+            <span class="cat-tag">Street Lighting</span>
+            <span class="cat-tag">Public Parks &amp; Trees</span>
+            <span class="cat-tag">Illegal Dumping</span>
+          </div>
+
+          <div class="privacy-callout">
+            <span class="mono-label">Anonymous Reporting Option</span>
+            <p class="step-desc">Every submission supports a <strong>Hide Identity</strong> toggle. When enabled, personal contact details are omitted from both the public tracker and officer assignment views.</p>
+          </div>
+
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary-blue btn-sm" onclick="switchView('report')">Start New Complaint</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="switchView('admin')">Officer Admin Console</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 2: REPORT ISSUE (Hidden until tab clicked)
+         ============================================================ -->
+    <section id="view-report" role="tabpanel" aria-labelledby="tab-report" hidden>
+      <div class="section-head">
+        <div>
+          <span class="mono-label">Citizen Intake Form · Step-by-Step Submission</span>
+          <h1 class="section-title">Report a <strong>Civic Maintenance Issue</strong></h1>
+          <p class="section-subtitle">Provide accurate issue details, optional photo evidence, and precise municipal location coordinates. Your unique tracking reference will be generated upon submission.</p>
+        </div>
+      </div>
+
+      <div id="report-submission-banner" class="inline-banner" hidden>
+        <div>
+          <div class="mono-label">Complaint Registered · Milestone: Received</div>
+          <p style="margin: var(--space-xs) 0 0 0;">
+            Reference Number: <strong class="mono-value" id="submitted-ref-code">CSL-2026-0000</strong> — <span id="submitted-title-echo"></span>
+          </p>
+        </div>
+        <div class="submit-actions">
+          <button type="button" class="btn btn-primary-blue btn-sm" id="btn-track-submitted" onclick="trackSubmittedComplaint()">Track This Complaint</button>
+        </div>
+      </div>
+
+      <form id="complaint-form" class="report-form" novalidate onsubmit="handleReportSubmit(event)">
+
+        <!-- Block 1: Issue Title & Maintenance Description -->
+        <div class="form-block">
+          <div class="form-block-head">
+            <h2 class="form-block-title">1. Issue Details</h2>
+            <span class="mono-label">Required Fields</span>
+          </div>
+
+          <div class="field-grid-2">
+            <div class="field-group">
+              <label class="field-label" for="input-issue-title">
+                <span>Issue Title</span>
+                <span class="field-req">REQUIRED</span>
+              </label>
+              <input type="text" id="input-issue-title" class="field-input" maxlength="120" placeholder="e.g. Overflowing waste bin at Galle Face promenade" required>
+              <span class="field-error" id="err-issue-title" hidden></span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="input-category">
+                <span>Maintenance Category</span>
+                <span class="field-req">REQUIRED</span>
+              </label>
+              <select id="input-category" class="field-select" required>
+                <option value="Waste &amp; Sanitation">Waste &amp; Sanitation</option>
+                <option value="Drainage &amp; Flooding">Drainage &amp; Flooding</option>
+                <option value="Road &amp; Pavements">Road &amp; Pavements</option>
+                <option value="Street Lighting">Street Lighting</option>
+                <option value="Public Parks &amp; Trees">Public Parks &amp; Trees</option>
+                <option value="Illegal Dumping">Illegal Dumping</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="input-description">
+              <span>Maintenance Description</span>
+              <span class="field-req">REQUIRED</span>
+            </label>
+            <textarea id="input-description" class="field-textarea" maxlength="800" placeholder="Describe the condition, safety hazard, duration of the issue, and nearby landmarks..." required></textarea>
+            <div style="display:flex; justify-content:space-between; gap: var(--space-sm);">
+              <span class="field-error" id="err-description" hidden></span>
+              <span class="field-hint mono-value" id="desc-char-count">0 / 800</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 2: Upload Photo & Hide Identity Toggle -->
+        <div class="form-block">
+          <div class="form-block-head">
+            <h2 class="form-block-title">2. Evidence &amp; Reporter Privacy</h2>
+            <span class="mono-label">Photo + Hide Identity</span>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="input-photo">
+              <span>Upload Photo</span>
+              <span class="field-hint">JPG, PNG, or WEBP (Optional)</span>
+            </label>
+            <div class="upload-zone">
+              <div class="upload-meta">
+                <img id="photo-preview-img" class="upload-thumb" alt="Uploaded issue photo preview" hidden>
+                <div>
+                  <div id="photo-file-status" style="font-weight:500;">No photo attached</div>
+                  <div class="field-hint" id="photo-file-meta">Attach a clear scene photo to help council engineers assess equipment needs.</div>
+                </div>
+              </div>
+              <div class="submit-actions">
+                <input type="file" id="input-photo" accept="image/*" style="max-width: 240px;" onchange="handlePhotoChange(this)">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-photo" onclick="clearUploadedPhoto()" hidden>Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hide Identity Toggle -->
+          <div class="toggle-row">
+            <div>
+              <div style="font-weight:600;">Hide Identity (Anonymous Reporting)</div>
+              <div class="field-hint">Enable to omit your personal name and contact details from the complaint record.</div>
+            </div>
+            <label class="switch-control" for="toggle-hide-identity">
+              <input type="checkbox" id="toggle-hide-identity" class="switch-input" role="switch" aria-checked="false" onchange="handleHideIdentityToggle(this.checked)">
+              <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+              <span class="mono-label" id="hide-identity-state-label">OFF</span>
+            </label>
+          </div>
+
+          <div id="anon-active-notice" class="anon-notice" hidden>
+            <strong>Anonymous Mode Active:</strong> Reporter identity is protected. This complaint will be logged under <em>Anonymous Citizen</em>.
+          </div>
+
+          <div id="reporter-identity-fields" class="field-grid-2">
+            <div class="field-group">
+              <label class="field-label" for="input-reporter-name">
+                <span>Reporter Name</span>
+                <span class="field-hint">Optional</span>
+              </label>
+              <input type="text" id="input-reporter-name" class="field-input" placeholder="e.g. Nimal Perera">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="input-reporter-contact">
+                <span>Contact Phone / Email</span>
+                <span class="field-hint">Optional</span>
+              </label>
+              <input type="text" id="input-reporter-contact" class="field-input" placeholder="e.g. 077 123 4567">
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 3: Location Details & Interactive GPS Map Pinpoint -->
+        <div class="form-block">
+          <div class="form-block-head">
+            <h2 class="form-block-title">3. Location &amp; GPS Pinpoint</h2>
+            <span class="mono-label">Municipal Routing</span>
+          </div>
+
+          <div class="field-grid-3">
+            <div class="field-group">
+              <label class="field-label" for="select-province">
+                <span>Province</span>
+                <span class="field-req">REQUIRED</span>
+              </label>
+              <select id="select-province" class="field-select" required onchange="handleProvinceChange(this.value)"></select>
+              <span class="field-error" id="err-province" hidden></span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="select-district">
+                <span>District</span>
+                <span class="field-req">REQUIRED</span>
+              </label>
+              <select id="select-district" class="field-select" required onchange="handleDistrictChange(this.value)"></select>
+              <span class="field-error" id="err-district" hidden></span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="select-council">
+                <span>Municipal Council</span>
+                <span class="field-req">REQUIRED</span>
+              </label>
+              <select id="select-council" class="field-select" required onchange="handleCouncilChange(this.value)"></select>
+              <span class="field-error" id="err-council" hidden></span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="input-street-address">
+              <span>Street Address</span>
+              <span class="field-req">REQUIRED</span>
+            </label>
+            <input type="text" id="input-street-address" class="field-input" placeholder="e.g. 145 Dharmapala Mawatha, Colombo 07" required>
+            <span class="field-error" id="err-street-address" hidden></span>
+          </div>
+
+          <!-- Interactive GPS Map Pinpoint Section -->
+          <div class="gps-panel">
+            <div class="gps-toolbar">
+              <div>
+                <div style="font-weight:600;">Interactive GPS Map Pinpoint</div>
+                <div class="field-hint">Click anywhere on the map to adjust the exact GPS pin coordinates for field crews.</div>
+              </div>
+              <div class="submit-actions">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-map-mode" onclick="toggleGpsMapMode()">Switch to Local Council Grid</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="snapPinToCouncil()">Snap to Council</button>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap: var(--space-sm);">
+              <div class="gps-coords-readout" id="gps-coords-display">LAT 6.9271° N  ·  LNG 79.8612° E</div>
+              <span class="mono-label" id="gps-mode-label">VIEW: SRI LANKA VECTOR MAP</span>
+            </div>
+
+            <div class="gps-map-stage" id="gps-map-stage" onclick="handleGpsMapClick(event)" role="application" aria-label="Interactive Sri Lanka GPS Pinpoint Map">
+              <svg id="gps-map-svg" class="gps-svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+                <g id="gps-grid-layer"></g>
+                <g id="gps-land-layer"></g>
+                <g id="gps-cities-layer"></g>
+                <g id="gps-pin-layer">
+                  <line id="pin-cross-h" class="map-crosshair" x1="0" y1="200" x2="600" y2="200"></line>
+                  <line id="pin-cross-v" class="map-crosshair" x1="300" y1="0" x2="300" y2="400"></line>
+                  <circle id="pin-halo" class="map-pin-halo" cx="300" cy="200" r="16"></circle>
+                  <circle id="pin-core" class="map-pin-core" cx="300" cy="200" r="6"></circle>
+                </g>
+              </svg>
+            </div>
+
+            <div class="map-attribution">
+              <span>VECTOR SCHEMATIC · SRI LANKA WGS84 COORDINATE GRID (5.9°N–9.9°N, 79.5°E–81.9°E)</span>
+              <span id="gps-council-echo">TARGET: COLOMBO MUNICIPAL COUNCIL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Complaint Button placed DIRECTLY below Location & GPS Pinpoint area -->
+        <div class="submit-bar">
+          <div>
+            <div style="font-weight:600;">Ready to register this maintenance complaint?</div>
+            <div class="field-hint">Submitting generates an immediate reference ID in the Complaint Status Tracker.</div>
+          </div>
+          <div class="submit-actions">
+            <button type="button" class="btn btn-secondary" onclick="resetReportForm()">Clear Form</button>
+            <button type="submit" class="btn btn-primary-green" id="btn-submit-complaint">
+              <span>Submit Complaint</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="report-form-error" class="inline-banner is-error" hidden></div>
+      </form>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3: COMPLAINT STATUS TRACKER (Hidden until tab clicked)
+         ============================================================ -->
+    <section id="view-tracker" role="tabpanel" aria-labelledby="tab-tracker" hidden>
+      <div class="section-head">
+        <div>
+          <span class="mono-label">Public Verification · Full Lifecycle Lookup</span>
+          <h1 class="section-title">Complaint Status <strong>Tracker</strong></h1>
+          <p class="section-subtitle">Enter your unique reference number to inspect real-time milestones across Received, Assigned, Updated, and Resolved stages.</p>
+        </div>
+      </div>
+
+      <div class="tracker-search-bar">
+        <form class="tracker-input-row" onsubmit="handleTrackerSearch(event)">
+          <div class="field-group">
+            <label class="field-label" for="input-tracker-ref">
+              <span>Complaint Reference Number</span>
+              <span class="field-hint">Format: CSL-2026-XXXX</span>
+            </label>
+            <input type="text" id="input-tracker-ref" class="field-input mono-value" placeholder="e.g. CSL-2026-0418">
+          </div>
+          <button type="submit" class="btn btn-primary-blue">Track Status</button>
+        </form>
+
+        <div class="quick-refs">
+          <span class="mono-label">Recent References:</span>
+          <div id="tracker-quick-chips" style="display:flex; flex-wrap:wrap; gap: var(--space-xs);"></div>
+        </div>
+      </div>
+
+      <div id="tracker-not-found" class="inline-banner is-error" style="margin-top: var(--space-lg);" hidden>
+        <div>
+          <strong>Reference Number Not Found:</strong> No complaint matched <span class="mono-value" id="tracker-missing-ref"></span>. Select one of the logged references above or verify your tracking code.
+        </div>
+      </div>
+
+      <div id="tracker-result-card" class="layer" style="margin-top: var(--space-lg);" hidden>
+        <div style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap: var(--space-md);">
+          <div>
+            <div class="mono-label" id="tr-ref-label">CSL-2026-0000</div>
+            <h2 class="section-title" id="tr-title" style="margin-top: var(--space-xs);"></h2>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap: var(--space-sm);">
+            <span class="cat-tag" id="tr-category-tag"></span>
+            <span class="cat-tag" id="tr-privacy-tag"></span>
+            <span class="status-pill" id="tr-status-pill"></span>
+          </div>
+        </div>
+
+        <p id="tr-description" style="margin: var(--space-md) 0 0 0; max-width: 72ch;"></p>
+
+        <!-- 4-Stage Milestone Bar -->
+        <div class="milestone-grid" id="tr-milestones">
+          <div class="milestone-step" id="ms-Received">
+            <span class="milestone-status-tag">01 · Received</span>
+            <span style="font-weight:600;">Logged in System</span>
+            <span class="field-hint mono-value" id="ms-time-Received">—</span>
+          </div>
+          <div class="milestone-step" id="ms-Assigned">
+            <span class="milestone-status-tag">02 · Assigned</span>
+            <span style="font-weight:600;">Council Unit Assigned</span>
+            <span class="field-hint mono-value" id="ms-time-Assigned">—</span>
+          </div>
+          <div class="milestone-step" id="ms-Updated">
+            <span class="milestone-status-tag">03 · Updated</span>
+            <span style="font-weight:600;">Field Action Underway</span>
+            <span class="field-hint mono-value" id="ms-time-Updated">—</span>
+          </div>
+          <div class="milestone-step" id="ms-Resolved">
+            <span class="milestone-status-tag">04 · Resolved</span>
+            <span style="font-weight:600;">Issue Closed</span>
+            <span class="field-hint mono-value" id="ms-time-Resolved">—</span>
+          </div>
+        </div>
+
+        <!-- Case Location & Assignment Metadata -->
+        <div class="detail-meta-grid">
+          <div class="meta-item">
+            <span class="mono-label">Municipal Council</span>
+            <span id="tr-council" style="font-weight:600;"></span>
+            <span class="field-hint" id="tr-province-district"></span>
+          </div>
+          <div class="meta-item">
+            <span class="mono-label">Street Address</span>
+            <span id="tr-address"></span>
+            <span class="field-hint mono-value" id="tr-gps"></span>
+          </div>
+          <div class="meta-item">
+            <span class="mono-label">Assigned Unit / Officer</span>
+            <span id="tr-assigned-unit" style="font-weight:600;"></span>
+            <span class="field-hint" id="tr-reporter-display"></span>
+          </div>
+          <div class="meta-item">
+            <span class="mono-label">Photo Attachment</span>
+            <span id="tr-photo-info"></span>
+            <span class="field-hint mono-value" id="tr-created-at"></span>
+          </div>
+        </div>
+
+        <!-- Chronological Timeline -->
+        <div style="margin-top: var(--space-lg);">
+          <span class="mono-label">Milestone Audit Log</span>
+          <div class="timeline-log" id="tr-timeline-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4: ADMIN DASHBOARD (Hidden until tab clicked)
+         ============================================================ -->
+    <section id="view-admin" role="tabpanel" aria-labelledby="tab-admin" hidden>
+      <div class="section-head">
+        <div>
+          <span class="mono-label">Government Officer Console · Operations &amp; Dispatch</span>
+          <h1 class="section-title">Administrative <strong>Dashboard</strong></h1>
+          <p class="section-subtitle">Monitor incoming complaints, assign municipal responsibilities, post field inspection updates, and close resolved cases.</p>
+        </div>
+        <div class="submit-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="exportComplaintsCsv()">Export CSV Register</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-demo" onclick="handleResetDemoData(this)">Reset Demo Data</button>
+        </div>
+      </div>
+
+      <!-- Admin KPI Strip -->
+      <div class="kpi-grid" style="margin-top: 0;">
+        <div class="kpi-tile is-blue">
+          <span class="mono-label">Pending Triage (Received)</span>
+          <span class="kpi-number" id="adm-kpi-received">0</span>
+          <span class="kpi-note">Needs unit assignment</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="mono-label">Assigned to Crews</span>
+          <span class="kpi-number" id="adm-kpi-assigned">0</span>
+          <span class="kpi-note">Responsibility delegated</span>
+        </div>
+        <div class="kpi-tile">
+          <span class="mono-label">Field Updated</span>
+          <span class="kpi-number" id="adm-kpi-updated">0</span>
+          <span class="kpi-note">Inspection / work logged</span>
+        </div>
+        <div class="kpi-tile is-green">
+          <span class="mono-label">Resolved</span>
+          <span class="kpi-number" id="adm-kpi-resolved">0</span>
+          <span class="kpi-note">Verified complete</span>
+        </div>
+      </div>
+
+      <!-- Filter Strip -->
+      <div class="admin-filters" style="margin-top: var(--space-lg);">
+        <div class="field-group">
+          <label class="field-label" for="adm-filter-status"><span>Filter by Status</span></label>
+          <select id="adm-filter-status" class="field-select" onchange="renderAdminDashboard()">
+            <option value="ALL">All Statuses</option>
+            <option value="Received">Received</option>
+            <option value="Assigned">Assigned</option>
+            <option value="Updated">Updated</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="adm-filter-province"><span>Filter by Province</span></label>
+          <select id="adm-filter-province" class="field-select" onchange="renderAdminDashboard()">
+            <option value="ALL">All 9 Provinces</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="adm-filter-query"><span>Search Ref / Council / Title</span></label>
+          <input type="text" id="adm-filter-query" class="field-input" placeholder="Search cases..." oninput="renderAdminDashboard()">
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="clearAdminFilters()">Clear Filters</button>
+      </div>
+
+      <!-- Asymmetric 2-Column Admin Workspace -->
+      <div class="admin-workspace">
+        <div>
+          <div class="table-wrap">
+            <table class="carbon-table" aria-label="Complaints Management Register">
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Issue &amp; Council</th>
+                  <th>Status</th>
+                  <th>Assigned Unit</th>
+                </tr>
+              </thead>
+              <tbody id="adm-table-body"></tbody>
+            </table>
+          </div>
+
+          <div class="chart-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:600;">Workload Distribution by Lifecycle Stage</div>
+                <span class="mono-label">Live Count · All Registered Complaints</span>
+              </div>
+            </div>
+            <div class="bar-chart-rows" id="adm-status-bars"></div>
+          </div>
+        </div>
+
+        <!-- Officer Management & Dispatch Panel -->
+        <aside class="layer" aria-label="Selected Case Management Panel">
+          <div class="form-block-head">
+            <h2 class="form-block-title">Officer Action Panel</h2>
+            <span class="mono-label" id="adm-selected-ref">SELECT A CASE</span>
+          </div>
+
+          <div id="adm-empty-selection" style="padding: var(--space-lg) 0;">
+            <p class="field-hint" style="margin:0;">Select any complaint row from the register table to assign municipal officers, update status milestones, or log field resolution notes.</p>
+          </div>
+
+          <div id="adm-editor-panel" style="display:flex; flex-direction:column; gap: var(--space-md); margin-top: var(--space-md);" hidden>
+            <div class="layer-nested">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap: var(--space-sm);">
+                <span class="mono-label" id="adm-ed-council"></span>
+                <span class="status-pill" id="adm-ed-status-pill"></span>
+              </div>
+              <h3 id="adm-ed-title" style="margin: var(--space-xs) 0; font-size: 1rem; font-weight:600;"></h3>
+              <p id="adm-ed-desc" style="margin:0; font-size:0.875rem; color: var(--on-surface-variant);"></p>
+              <div class="mono-label" id="adm-ed-meta" style="margin-top: var(--space-sm);"></div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="adm-assign-unit">
+                <span>Assign Municipal Unit / Responsibility</span>
+              </label>
+              <select id="adm-assign-unit" class="field-select">
+                <option value="Unassigned">Unassigned (Pending Triage)</option>
+                <option value="Solid Waste &amp; Sanitation Division">Solid Waste &amp; Sanitation Division</option>
+                <option value="Road &amp; Storm Drainage Engineering">Road &amp; Storm Drainage Engineering</option>
+                <option value="Public Street Lighting Unit">Public Street Lighting Unit</option>
+                <option value="Urban Forestry &amp; Parks Crew">Urban Forestry &amp; Parks Crew</option>
+                <option value="Environmental Enforcement Squad">Environmental Enforcement Squad</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="adm-assign-officer">
+                <span>Assigned Officer Name</span>
+              </label>
+              <input type="text" id="adm-assign-officer" class="field-input" placeholder="e.g. Eng. K. Wickramasinghe">
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="adm-status-select">
+                <span>Update Lifecycle Status</span>
+              </label>
+              <select id="adm-status-select" class="field-select">
+                <option value="Received">Received</option>
+                <option value="Assigned">Assigned</option>
+                <option value="Updated">Updated</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="adm-officer-note">
+                <span>Official Milestone Note</span>
+              </label>
+              <textarea id="adm-officer-note" class="field-textarea" style="min-height:84px;" placeholder="Log inspection outcome, crew dispatch time, or closure verification..."></textarea>
+            </div>
+
+            <div id="adm-save-banner" class="inline-banner" hidden>
+              <span style="font-size:0.875rem;">Case updated and persisted to register.</span>
+            </div>
+
+            <div class="submit-actions">
+              <button type="button" class="btn btn-primary-green" onclick="saveAdminCaseUpdate()">Save Status &amp; Assignment</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openSelectedInTracker()">View in Tracker</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>Clean Sri Lanka Digital Complaint Management System</strong> · Citizen Civic Infrastructure &amp; Municipal Accountability Portal
+      </div>
+      <div class="mono-label">STATUS LIFECYCLE: RECEIVED · ASSIGNED · UPDATED · RESOLVED</div>
+    </div>
+  </footer>
+
+  <api-shim></api-shim>
+  <script>
+    /* ============================================================
+       SRI LANKA ADMINISTRATIVE HIERARCHY & COUNCIL COORDINATES
+       ============================================================ */
+    const SRI_LANKA_GEO = {
+      "Western Province": {
+        "Colombo": [
+          { name: `Colombo Municipal Council`, lat: 6.9271, lng: 79.8612 },
+          { name: `Dehiwala-Mount Lavinia Municipal Council`, lat: 6.8511, lng: 79.8659 },
+          { name: `Sri Jayawardenepura Kotte Municipal Council`, lat: 6.8905, lng: 79.9015 },
+          { name: `Moratuwa Municipal Council`, lat: 6.7730, lng: 79.8816 },
+          { name: `Kaduwela Municipal Council`, lat: 6.9357, lng: 79.9843 },
+          { name: `Maharagama Urban Council`, lat: 6.8480, lng: 79.9265 }
+        ],
+        "Gampaha": [
+          { name: `Negombo Municipal Council`, lat: 7.2008, lng: 79.8737 },
+          { name: `Gampaha Municipal Council`, lat: 7.0840, lng: 80.0098 },
+          { name: `Wattala-Mabole Urban Council`, lat: 6.9892, lng: 79.8914 },
+          { name: `Kelaniya Pradeshiya Sabha`, lat: 6.9553, lng: 79.9220 }
+        ],
+        "Kalutara": [
+          { name: `Kalutara Urban Council`, lat: 6.5854, lng: 79.9607 },
+          { name: `Panadura Urban Council`, lat: 6.7132, lng: 79.9026 },
+          { name: `Beruwala Urban Council`, lat: 6.4788, lng: 79.9828 }
+        ]
+      },
+      "Central Province": {
+        "Kandy": [
+          { name: `Kandy Municipal Council`, lat: 7.2906, lng: 80.6337 },
+          { name: `Gampola Urban Council`, lat: 7.1643, lng: 80.5696 },
+          { name: `Nawalapitiya Urban Council`, lat: 7.0537, lng: 80.5349 }
+        ],
+        "Matale": [
+          { name: `Matale Municipal Council`, lat: 7.4675, lng: 80.6234 },
+          { name: `Dambulla Municipal Council`, lat: 7.8731, lng: 80.6517 }
+        ],
+        "Nuwara Eliya": [
+          { name: `Nuwara Eliya Municipal Council`, lat: 6.9497, lng: 80.7891 },
+          { name: `Hatton-Dickoya Urban Council`, lat: 6.8916, lng: 80.5955 }
+        ]
+      },
+      "Southern Province": {
+        "Galle": [
+          { name: `Galle Municipal Council`, lat: 6.0535, lng: 80.2210 },
+          { name: `Ambalangoda Urban Council`, lat: 6.2355, lng: 80.0538 },
+          { name: `Hikkaduwa Urban Council`, lat: 6.1395, lng: 80.1063 }
+        ],
+        "Matara": [
+          { name: `Matara Municipal Council`, lat: 5.9549, lng: 80.5550 },
+          { name: `Weligama Urban Council`, lat: 5.9750, lng: 80.4297 }
+        ],
+        "Hambantota": [
+          { name: `Hambantota Municipal Council`, lat: 6.1429, lng: 81.1212 },
+          { name: `Tangalle Urban Council`, lat: 6.0243, lng: 80.7941 }
+        ]
+      },
+      "Northern Province": {
+        "Jaffna": [
+          { name: `Jaffna Municipal Council`, lat: 9.6615, lng: 80.0255 },
+          { name: `Point Pedro Urban Council`, lat: 9.8167, lng: 80.2333 },
+          { name: `Chavakachcheri Urban Council`, lat: 9.6611, lng: 80.1653 }
+        ],
+        "Kilinochchi": [
+          { name: `Karachchi Pradeshiya Sabha`, lat: 9.3803, lng: 80.3770 }
+        ],
+        "Mannar": [
+          { name: `Mannar Urban Council`, lat: 8.9810, lng: 79.9044 }
+        ],
+        "Vavuniya": [
+          { name: `Vavuniya Urban Council`, lat: 8.7514, lng: 80.4971 }
+        ],
+        "Mullaitivu": [
+          { name: `Maritimepattu Pradeshiya Sabha`, lat: 9.2671, lng: 80.8142 }
+        ]
+      },
+      "Eastern Province": {
+        "Batticaloa": [
+          { name: `Batticaloa Municipal Council`, lat: 7.7310, lng: 81.6747 },
+          { name: `Kattankudy Urban Council`, lat: 7.6833, lng: 81.7333 }
+        ],
+        "Ampara": [
+          { name: `Kalmunai Municipal Council`, lat: 7.4167, lng: 81.8167 },
+          { name: `Akkaraipattu Municipal Council`, lat: 7.2167, lng: 81.8500 },
+          { name: `Ampara Urban Council`, lat: 7.2975, lng: 81.6820 }
+        ],
+        "Trincomalee": [
+          { name: `Trincomalee Urban Council`, lat: 8.5874, lng: 81.2152 },
+          { name: `Kinniya Urban Council`, lat: 8.4986, lng: 81.1833 }
+        ]
+      },
+      "North Western Province": {
+        "Kurunegala": [
+          { name: `Kurunegala Municipal Council`, lat: 7.4863, lng: 80.3623 },
+          { name: `Kuliyapitiya Urban Council`, lat: 7.4688, lng: 80.0401 }
+        ],
+        "Puttalam": [
+          { name: `Puttalam Urban Council`, lat: 8.0362, lng: 79.8283 },
+          { name: `Chilaw Urban Council`, lat: 7.5758, lng: 79.7953 }
+        ]
+      },
+      "North Central Province": {
+        "Anuradhapura": [
+          { name: `Anuradhapura Municipal Council`, lat: 8.3114, lng: 80.4037 },
+          { name: `Kekirawa Pradeshiya Sabha`, lat: 8.0403, lng: 80.5975 }
+        ],
+        "Polonnaruwa": [
+          { name: `Polonnaruwa Municipal Council`, lat: 7.9403, lng: 81.0188 },
+          { name: `Hingurakgoda Pradeshiya Sabha`, lat: 8.0400, lng: 80.9500 }
+        ]
+      },
+      "Uva Province": {
+        "Badulla": [
+          { name: `Badulla Municipal Council`, lat: 6.9934, lng: 81.0550 },
+          { name: `Bandarawela Municipal Council`, lat: 6.8329, lng: 80.9852 },
+          { name: `Haputale Urban Council`, lat: 6.7654, lng: 80.9510 }
+        ],
+        "Monaragala": [
+          { name: `Monaragala Pradeshiya Sabha`, lat: 6.8728, lng: 81.3507 },
+          { name: `Wellawaya Pradeshiya Sabha`, lat: 6.7370, lng: 81.1028 }
+        ]
+      },
+      "Sabaragamuwa Province": {
+        "Ratnapura": [
+          { name: `Ratnapura Municipal Council`, lat: 6.6828, lng: 80.3992 },
+          { name: `Balangoda Urban Council`, lat: 6.6486, lng: 80.7031 }
+        ],
+        "Kegalle": [
+          { name: `Kegalle Urban Council`, lat: 7.2513, lng: 80.3464 },
+          { name: `Mawanella Pradeshiya Sabha`, lat: 7.2530, lng: 80.4455 }
+        ]
+      }
+    };
+
+    /* Simplified accurate Sri Lanka island polygon in WGS84 [lng, lat] */
+    const SL_COAST_COORDS = [
+      [80.02, 9.83], [80.24, 9.82], [80.45, 9.65], [80.75, 9.33], [80.95, 9.02],
+      [81.24, 8.60], [81.48, 8.15], [81.70, 7.72], [81.87, 7.38], [81.86, 6.95],
+      [81.65, 6.50], [81.35, 6.18], [81.05, 6.08], [80.70, 5.95], [80.35, 5.96],
+      [80.08, 6.12], [79.96, 6.48], [79.86, 6.92], [79.82, 7.25], [79.79, 7.62],
+      [79.82, 8.05], [79.88, 8.55], [79.89, 8.98], [79.96, 9.38], [80.02, 9.83]
+    ];
+
+    const SL_KEY_HUBS = [
+      { label: `Colombo`, lat: 6.9271, lng: 79.8612 },
+      { label: `Kandy`, lat: 7.2906, lng: 80.6337 },
+      { label: `Galle`, lat: 6.0535, lng: 80.2210 },
+      { label: `Jaffna`, lat: 9.6615, lng: 80.0255 },
+      { label: `Trincomalee`, lat: 8.5874, lng: 81.2152 },
+      { label: `Anuradhapura`, lat: 8.3114, lng: 80.4037 },
+      { label: `Batticaloa`, lat: 7.7310, lng: 81.6747 },
+      { label: `Badulla`, lat: 6.9934, lng: 81.0550 },
+      { label: `Ratnapura`, lat: 6.6828, lng: 80.3992 }
+    ];
+
+    const SEED_COMPLAINTS = [
+      {
+        ref: `CSL-2026-0418`,
+        title: `Blocked stormwater culvert causing street flooding`,
+        category: `Drainage & Flooding`,
+        description: `Heavy silt and plastic debris have obstructed the main roadside culvert near Fort Railway junction, creating standing water across the pedestrian crossing after afternoon rain.`,
+        province: `Western Province`,
+        district: `Colombo`,
+        council: `Colombo Municipal Council`,
+        streetAddress: `Olcott Mawatha, Colombo 11`,
+        lat: 6.9334,
+        lng: 79.8501,
+        hideIdentity: false,
+        reporterName: `Dinesh Wijesinghe`,
+        reporterContact: `077 482 1190`,
+        photoName: `fort_culvert_drain.jpg`,
+        photoMeta: `1280 x 960 · 1.4 MB`,
+        status: `Updated`,
+        assignedUnit: `Road & Storm Drainage Engineering`,
+        assignedOfficer: `Eng. R. Jayasuriya`,
+        createdAt: `2026-11-21 09:14`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-21 09:14`, actor: `Citizen Portal`, note: `Complaint logged with GPS coordinates and scene photo.` },
+          { stage: `Assigned`, timestamp: `2026-11-21 11:05`, actor: `Colombo MC Desk`, note: `Assigned to Road & Storm Drainage Engineering (Eng. R. Jayasuriya).` },
+          { stage: `Updated`, timestamp: `2026-11-23 14:30`, actor: `Eng. R. Jayasuriya`, note: `Site inspection complete; jetting truck scheduled for debris clearance tonight.` }
+        ]
+      },
+      {
+        ref: `CSL-2026-0419`,
+        title: `Non-functioning LED streetlamps along Peradeniya Road`,
+        category: `Street Lighting`,
+        description: `Four consecutive street lighting poles near the university junction have remained unlit for five nights, reducing visibility for evening commuters.`,
+        province: `Central Province`,
+        district: `Kandy`,
+        council: `Kandy Municipal Council`,
+        streetAddress: `218 Peradeniya Road, Kandy`,
+        lat: 7.2835,
+        lng: 80.6184,
+        hideIdentity: true,
+        reporterName: `Anonymous Citizen`,
+        reporterContact: `Hidden`,
+        photoName: `peradeniya_lamps.jpg`,
+        photoMeta: `1024 x 768 · 890 KB`,
+        status: `Assigned`,
+        assignedUnit: `Public Street Lighting Unit`,
+        assignedOfficer: `Tech. S. Bandara`,
+        createdAt: `2026-11-22 19:40`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-22 19:40`, actor: `Citizen Portal (Anonymous)`, note: `Anonymous report registered with streetlight pole coordinates.` },
+          { stage: `Assigned`, timestamp: `2026-11-23 08:50`, actor: `Kandy MC Triage`, note: `Dispatched to Public Street Lighting Unit (Tech. S. Bandara) for circuit breaker check.` }
+        ]
+      },
+      {
+        ref: `CSL-2026-0420`,
+        title: `Overflowing municipal waste collection point`,
+        category: `Waste & Sanitation`,
+        description: `Segregated recyclables and organic bins near the public market entrance are overflowing onto the pavement and require urgent compactor pickup.`,
+        province: `Southern Province`,
+        district: `Galle`,
+        council: `Galle Municipal Council`,
+        streetAddress: `Wakwella Road Market Front, Galle`,
+        lat: 6.0562,
+        lng: 80.2194,
+        hideIdentity: false,
+        reporterName: `Fathima Nazeer`,
+        reporterContact: `071 905 3321`,
+        photoName: `galle_market_bins.png`,
+        photoMeta: `1600 x 1200 · 1.8 MB`,
+        status: `Resolved`,
+        assignedUnit: `Solid Waste & Sanitation Division`,
+        assignedOfficer: `Sup. M. Silva`,
+        createdAt: `2026-11-19 07:25`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-19 07:25`, actor: `Citizen Portal`, note: `Logged via Clean Sri Lanka mobile intake.` },
+          { stage: `Assigned`, timestamp: `2026-11-19 08:10`, actor: `Galle MC Operations`, note: `Assigned to Solid Waste & Sanitation Division (Sup. M. Silva).` },
+          { stage: `Updated`, timestamp: `2026-11-19 10:45`, actor: `Sup. M. Silva`, note: `Compactor truck #04 cleared overflow and sanitized concrete bay.` },
+          { stage: `Resolved`, timestamp: `2026-11-19 13:20`, actor: `Galle MC Inspector`, note: `Site verified clean; additional evening pickup added to market route.` }
+        ]
+      },
+      {
+        ref: `CSL-2026-0421`,
+        title: `Illegal construction rubble dumping beside lagoon bank`,
+        category: `Illegal Dumping`,
+        description: `Unlicensed lorry loads of concrete rubble and packaging waste were left along the public reserve edge overnight, threatening coastal drainage.`,
+        province: `Northern Province`,
+        district: `Jaffna`,
+        council: `Jaffna Municipal Council`,
+        streetAddress: `Pannai Causeway East Approach, Jaffna`,
+        lat: 9.6552,
+        lng: 80.0148,
+        hideIdentity: true,
+        reporterName: `Anonymous Citizen`,
+        reporterContact: `Hidden`,
+        photoName: ``,
+        photoMeta: ``,
+        status: `Received`,
+        assignedUnit: `Unassigned`,
+        assignedOfficer: `Pending Assignment`,
+        createdAt: `2026-11-24 08:05`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-24 08:05`, actor: `Citizen Portal (Anonymous)`, note: `Received and queued for Jaffna Municipal Council officer triage.` }
+        ]
+      },
+      {
+        ref: `CSL-2026-0422`,
+        title: `Damaged pedestrian paving slabs outside hospital gate`,
+        category: `Road & Pavements`,
+        description: `Several interlocking concrete paving blocks have subsided near the outpatient entrance, posing a tripping hazard for elderly visitors.`,
+        province: `North Central Province`,
+        district: `Anuradhapura`,
+        council: `Anuradhapura Municipal Council`,
+        streetAddress: `Harischandra Mawatha, Anuradhapura`,
+        lat: 8.3186,
+        lng: 80.4112,
+        hideIdentity: false,
+        reporterName: `Kamal Rathnayake`,
+        reporterContact: `076 239 8840`,
+        photoName: `paving_slabs.jpg`,
+        photoMeta: `1200 x 900 · 950 KB`,
+        status: `Updated`,
+        assignedUnit: `Road & Storm Drainage Engineering`,
+        assignedOfficer: `Eng. T. Senanayake`,
+        createdAt: `2026-11-20 15:12`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-20 15:12`, actor: `Citizen Portal`, note: `Submitted with exact street coordinates.` },
+          { stage: `Assigned`, timestamp: `2026-11-21 09:00`, actor: `Anuradhapura MC`, note: `Assigned to Road & Storm Drainage Engineering.` },
+          { stage: `Updated`, timestamp: `2026-11-22 16:15`, actor: `Eng. T. Senanayake`, note: `Safety cones placed; replacement paving blocks ordered from municipal depot.` }
+        ]
+      },
+      {
+        ref: `CSL-2026-0423`,
+        title: `Fallen coconut palm frond obstructing park walkway`,
+        category: `Public Parks & Trees`,
+        description: `High coastal winds brought down two large palm branches over the pedestrian path near the beachfront children's play area.`,
+        province: `Eastern Province`,
+        district: `Batticaloa`,
+        council: `Batticaloa Municipal Council`,
+        streetAddress: `Kallady Beach Park Road, Batticaloa`,
+        lat: 7.7182,
+        lng: 81.7124,
+        hideIdentity: false,
+        reporterName: `S. Arulanantham`,
+        reporterContact: `075 612 7409`,
+        photoName: ``,
+        photoMeta: ``,
+        status: `Received`,
+        assignedUnit: `Unassigned`,
+        assignedOfficer: `Pending Assignment`,
+        createdAt: `2026-11-24 09:42`,
+        history: [
+          { stage: `Received`, timestamp: `2026-11-24 09:42`, actor: `Citizen Portal`, note: `Awaiting assignment by Batticaloa Municipal Council duty officer.` }
+        ]
+      }
+    ];
+
+    /* ============================================================
+       APPLICATION STATE
+       ============================================================ */
+    let appState = {
+      activeTab: `overview`,
+      complaints: [],
+      selectedTrackerRef: `CSL-2026-0418`,
+      selectedAdminRef: `CSL-2026-0418`,
+      lastSubmittedRef: ``,
+      gpsMode: `island`, // 'island' or 'local'
+      pinLat: 6.9271,
+      pinLng: 79.8612,
+      draftPhotoName: ``,
+      draftPhotoMeta: ``
+    };
+
+    const STATUS_ORDER = [`Received`, `Assigned`, `Updated`, `Resolved`];
+
+    function cloneSeedComplaints() {
+      return JSON.parse(JSON.stringify(SEED_COMPLAINTS));
+    }
+
+    function nowFormatted() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, `0`);
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function persistState() {
+      const payload = {
+        complaints: appState.complaints,
+        selectedTrackerRef: appState.selectedTrackerRef,
+        selectedAdminRef: appState.selectedAdminRef
+      };
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState(payload);
+        } catch (err) {
+          // Graceful fallback in standalone preview without host shim
+        }
+      }
+    }
+
+    /* ============================================================
+       IMAGE FALLBACK HANDLERS
+       ============================================================ */
+    function handleLogoFallback(imgEl) {
+      if (imgEl) imgEl.hidden = true;
+      const fallback = document.getElementById(`brand-logo-fallback`);
+      if (fallback) fallback.hidden = false;
+    }
+
+    function handleHeroBgFallback(imgEl) {
+      if (imgEl) imgEl.hidden = true;
+    }
+
+    /* ============================================================
+       NAVIGATION & VIEW SWITCHING
+       Strictly shows ONLY Overview on initial load;
+       other views only open when user clicks their nav tab.
+       ============================================================ */
+    function switchView(tabName) {
+      const views = [`overview`, `report`, `tracker`, `admin`];
+      if (!views.includes(tabName)) return;
+      appState.activeTab = tabName;
+
+      views.forEach((name) => {
+        const panel = document.getElementById(`view-${name}`);
+        const tab = document.getElementById(`tab-${name}`);
+        const isTarget = name === tabName;
+        if (panel) panel.hidden = !isTarget;
+        if (tab) {
+          tab.classList.toggle(`is-active`, isTarget);
+          tab.setAttribute(`aria-selected`, isTarget ? `true` : `false`);
+        }
+      });
+
+      if (tabName === `overview`) {
+        renderOverviewMetrics();
+      } else if (tabName === `report`) {
+        renderGpsMap();
+      } else if (tabName === `tracker`) {
+        renderTrackerQuickChips();
+        lookupTrackerRef(appState.selectedTrackerRef);
+      } else if (tabName === `admin`) {
+        renderAdminDashboard();
+      }
+    }
+
+    /* ============================================================
+       OVERVIEW RENDERING
+       ============================================================ */
+    function renderOverviewMetrics() {
+      const list = appState.complaints;
+      const total = list.length;
+      const received = list.filter((c) => c.status === `Received`).length;
+      const active = list.filter((c) => c.status === `Assigned` || c.status === `Updated`).length;
+      const resolved = list.filter((c) => c.status === `Resolved`).length;
+      const pct = total > 0 ? Math.round((resolved / total) * 100) : 0;
+
+      const elTotal = document.getElementById(`ov-kpi-total`);
+      const elRec = document.getElementById(`ov-kpi-received`);
+      const elAct = document.getElementById(`ov-kpi-active`);
+      const elRes = document.getElementById(`ov-kpi-resolved`);
+      const elRate = document.getElementById(`ov-kpi-rate`);
+      const badge = document.getElementById(`nav-pending-badge`);
+
+      if (elTotal) elTotal.textContent = String(total);
+      if (elRec) elRec.textContent = String(received);
+      if (elAct) elAct.textContent = String(active);
+      if (elRes) elRes.textContent = String(resolved);
+      if (elRate) elRate.textContent = `${pct}% closure rate`;
+      if (badge) badge.textContent = String(received + active);
+    }
+
+    /* ============================================================
+       REPORT ISSUE FORM: CASCADING LOCATION & INTERACTIVE GPS MAP
+       ============================================================ */
+    function populateProvinceDropdowns() {
+      const provSelect = document.getElementById(`select-province`);
+      const admProvSelect = document.getElementById(`adm-filter-province`);
+      const provinces = Object.keys(SRI_LANKA_GEO);
+
+      if (provSelect) {
+        provSelect.innerHTML = provinces.map((p) => `<option value="${p}">${p}</option>`).join(``);
+        handleProvinceChange(provinces[0]);
+      }
+      if (admProvSelect) {
+        admProvSelect.innerHTML = `<option value="ALL">All 9 Provinces</option>` +
+          provinces.map((p) => `<option value="${p}">${p}</option>`).join(``);
+      }
+    }
+
+    function handleProvinceChange(provinceName) {
+      const distSelect = document.getElementById(`select-district`);
+      if (!distSelect) return;
+      const districtsObj = SRI_LANKA_GEO[provinceName] || {};
+      const districts = Object.keys(districtsObj);
+      distSelect.innerHTML = districts.map((d) => `<option value="${d}">${d}</option>`).join(``);
+      if (districts.length > 0) {
+        handleDistrictChange(districts[0]);
+      }
+    }
+
+    function handleDistrictChange(districtName) {
+      const provSelect = document.getElementById(`select-province`);
+      const councilSelect = document.getElementById(`select-council`);
+      if (!provSelect || !councilSelect) return;
+
+      const provinceName = provSelect.value;
+      const councils = (SRI_LANKA_GEO[provinceName] && SRI_LANKA_GEO[provinceName][districtName]) || [];
+      councilSelect.innerHTML = councils.map((c) => `<option value="${c.name}">${c.name}</option>`).join(``);
+      if (councils.length > 0) {
+        handleCouncilChange(councils[0].name);
+      }
+    }
+
+    function getSelectedCouncilObject() {
+      const provSelect = document.getElementById(`select-province`);
+      const distSelect = document.getElementById(`select-district`);
+      const councilSelect = document.getElementById(`select-council`);
+      if (!provSelect || !distSelect || !councilSelect) return null;
+
+      const list = (SRI_LANKA_GEO[provSelect.value] && SRI_LANKA_GEO[provSelect.value][distSelect.value]) || [];
+      return list.find((c) => c.name === councilSelect.value) || list[0] || null;
+    }
+
+    function handleCouncilChange(councilName) {
+      const echo = document.getElementById(`gps-council-echo`);
+      if (echo) echo.textContent = `TARGET: ${String(councilName || ``).toUpperCase()}`;
+      snapPinToCouncil();
+    }
+
+    function snapPinToCouncil() {
+      const obj = getSelectedCouncilObject();
+      if (!obj) return;
+      appState.pinLat = obj.lat;
+      appState.pinLng = obj.lng;
+      updateGpsReadout();
+      renderGpsMap();
+    }
+
+    function toggleGpsMapMode() {
+      appState.gpsMode = appState.gpsMode === `island` ? `local` : `island`;
+      const btn = document.getElementById(`btn-map-mode`);
+      const modeLbl = document.getElementById(`gps-mode-label`);
+      if (btn) {
+        btn.textContent = appState.gpsMode === `island`
+          ? `Switch to Local Council Grid`
+          : `Switch to Sri Lanka Island View`;
+      }
+      if (modeLbl) {
+        modeLbl.textContent = appState.gpsMode === `island`
+          ? `VIEW: SRI LANKA VECTOR MAP`
+          : `VIEW: LOCAL MUNICIPAL GRID (±2.8 KM)`;
+      }
+      renderGpsMap();
+    }
+
+    function getMapBounds() {
+      if (appState.gpsMode === `local`) {
+        const obj = getSelectedCouncilObject() || { lat: appState.pinLat, lng: appState.pinLng };
+        return {
+          minLng: obj.lng - 0.032,
+          maxLng: obj.lng + 0.032,
+          minLat: obj.lat - 0.022,
+          maxLat: obj.lat + 0.022
+        };
+      }
+      return {
+        minLng: 79.35,
+        maxLng: 82.15,
+        minLat: 5.75,
+        maxLat: 10.05
+      };
+    }
+
+    function projectToSvg(lng, lat, bounds) {
+      const x = ((lng - bounds.minLng) / (bounds.maxLng - bounds.minLng)) * 600;
+      const y = (1 - (lat - bounds.minLat) / (bounds.maxLat - bounds.minLat)) * 400;
+      return { x, y };
+    }
+
+    function unprojectFromSvg(x, y, bounds) {
+      const lng = bounds.minLng + (x / 600) * (bounds.maxLng - bounds.minLng);
+      const lat = bounds.minLat + (1 - y / 400) * (bounds.maxLat - bounds.minLat);
+      return {
+        lat: Number(Math.max(5.80, Math.min(9.95, lat)).toFixed(4)),
+        lng: Number(Math.max(79.45, Math.min(82.00, lng)).toFixed(4))
+      };
+    }
+
+    function updateGpsReadout() {
+      const el = document.getElementById(`gps-coords-display`);
+      if (!el) return;
+      el.textContent = `LAT ${appState.pinLat.toFixed(4)}° N  ·  LNG ${appState.pinLng.toFixed(4)}° E`;
+    }
+
+    function renderGpsMap() {
+      const gridLayer = document.getElementById(`gps-grid-layer`);
+      const landLayer = document.getElementById(`gps-land-layer`);
+      const citiesLayer = document.getElementById(`gps-cities-layer`);
+      const pinCrossH = document.getElementById(`pin-cross-h`);
+      const pinCrossV = document.getElementById(`pin-cross-v`);
+      const pinHalo = document.getElementById(`pin-halo`);
+      const pinCore = document.getElementById(`pin-core`);
+
+      if (!gridLayer || !landLayer || !citiesLayer) return;
+
+      const bounds = getMapBounds();
+
+      // Gridlines
+      let gridHtml = ``;
+      for (let gx = 60; gx < 600; gx += 60) {
+        gridHtml += `<line class="map-grid-line" x1="${gx}" y1="0" x2="${gx}" y2="400"></line>`;
+      }
+      for (let gy = 40; gy < 400; gy += 40) {
+        gridHtml += `<line class="map-grid-line" x1="0" y1="${gy}" x2="600" y2="${gy}"></line>`;
+      }
+      gridLayer.innerHTML = gridHtml;
+
+      if (appState.gpsMode === `island`) {
+        const pts = SL_COAST_COORDS.map(([lng, lat]) => {
+          const p = projectToSvg(lng, lat, bounds);
+          return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+        }).join(` `);
+        landLayer.innerHTML = `<polygon class="map-island-path" points="${pts}"></polygon>`;
+
+        citiesLayer.innerHTML = SL_KEY_HUBS.map((hub) => {
+          const p = projectToSvg(hub.lng, hub.lat, bounds);
+          return `<g>
+            <circle class="map-city-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3"></circle>
+            <text class="map-city-label" x="${(p.x + 6).toFixed(1)}" y="${(p.y + 3).toFixed(1)}">${hub.label}</text>
+          </g>`;
+        }).join(``);
+      } else {
+        // Local council precision grid
+        const obj = getSelectedCouncilObject();
+        landLayer.innerHTML = `<rect x="0" y="0" width="600" height="400" class="map-island-path" style="opacity:0.92"></rect>`;
+        if (obj) {
+          const centerPt = projectToSvg(obj.lng, obj.lat, bounds);
+          citiesLayer.innerHTML = `
+            <circle cx="${centerPt.x.toFixed(1)}" cy="${centerPt.y.toFixed(1)}" r="75" fill="none" class="map-province-line"></circle>
+            <circle class="map-city-dot" cx="${centerPt.x.toFixed(1)}" cy="${centerPt.y.toFixed(1)}" r="4"></circle>
+            <text class="map-city-label" x="${(centerPt.x + 8).toFixed(1)}" y="${(centerPt.y + 3).toFixed(1)}">${obj.name}</text>
+          `;
+        } else {
+          citiesLayer.innerHTML = ``;
+        }
+      }
+
+      const pinPt = projectToSvg(appState.pinLng, appState.pinLat, bounds);
+      const px = Math.max(8, Math.min(592, pinPt.x));
+      const py = Math.max(8, Math.min(392, pinPt.y));
+
+      if (pinCrossH) { pinCrossH.setAttribute(`y1`, py); pinCrossH.setAttribute(`y2`, py); }
+      if (pinCrossV) { pinCrossV.setAttribute(`x1`, px); pinCrossV.setAttribute(`x2`, px); }
+      if (pinHalo) { pinHalo.setAttribute(`cx`, px); pinHalo.setAttribute(`cy`, py); }
+      if (pinCore) { pinCore.setAttribute(`cx`, px); pinCore.setAttribute(`cy`, py); }
+
+      updateGpsReadout();
+    }
+
+    function handleGpsMapClick(event) {
+      const svg = document.getElementById(`gps-map-svg`);
+      if (!svg) return;
+      const rect = svg.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const clickX = ((event.clientX - rect.left) / rect.width) * 600;
+      const clickY = ((event.clientY - rect.top) / rect.height) * 400;
+      const bounds = getMapBounds();
+      const coords = unprojectFromSvg(clickX, clickY, bounds);
+
+      appState.pinLat = coords.lat;
+      appState.pinLng = coords.lng;
+      renderGpsMap();
+    }
+
+    /* Photo upload preview (kept in memory, metadata only persisted) */
+    function handlePhotoChange(inputEl) {
+      const statusEl = document.getElementById(`photo-file-status`);
+      const metaEl = document.getElementById(`photo-file-meta`);
+      const previewEl = document.getElementById(`photo-preview-img`);
+      const clearBtn = document.getElementById(`btn-clear-photo`);
+
+      if (!inputEl || !inputEl.files || inputEl.files.length === 0) {
+        clearUploadedPhoto();
+        return;
+      }
+
+      const file = inputEl.files[0];
+      const kb = Math.max(1, Math.round(file.size / 1024));
+      const sizeStr = kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`;
+      appState.draftPhotoName = file.name;
+      appState.draftPhotoMeta = `${file.type || `image`} · ${sizeStr}`;
+
+      if (statusEl) statusEl.textContent = file.name;
+      if (metaEl) metaEl.textContent = `Attached (${sizeStr}) — ready for municipal review`;
+      if (clearBtn) clearBtn.hidden = false;
+
+      if (previewEl && window.URL && typeof window.URL.createObjectURL === `function`) {
+        const objUrl = URL.createObjectURL(file);
+        previewEl.src = objUrl;
+        previewEl.hidden = false;
+      }
+    }
+
+    function clearUploadedPhoto() {
+      const inputEl = document.getElementById(`input-photo`);
+      const statusEl = document.getElementById(`photo-file-status`);
+      const metaEl = document.getElementById(`photo-file-meta`);
+      const previewEl = document.getElementById(`photo-preview-img`);
+      const clearBtn = document.getElementById(`btn-clear-photo`);
+
+      if (inputEl) inputEl.value = ``;
+      appState.draftPhotoName = ``;
+      appState.draftPhotoMeta = ``;
+      if (statusEl) statusEl.textContent = `No photo attached`;
+      if (metaEl) metaEl.textContent = `Attach a clear scene photo to help council engineers assess equipment needs.`;
+      if (previewEl) {
+        previewEl.removeAttribute(`src`);
+        previewEl.hidden = true;
+      }
+      if (clearBtn) clearBtn.hidden = true;
+    }
+
+    /* Hide Identity Toggle */
+    function handleHideIdentityToggle(isHidden) {
+      const toggle = document.getElementById(`toggle-hide-identity`);
+      const label = document.getElementById(`hide-identity-state-label`);
+      const notice = document.getElementById(`anon-active-notice`);
+      const fields = document.getElementById(`reporter-identity-fields`);
+
+      if (toggle) toggle.setAttribute(`aria-checked`, isHidden ? `true` : `false`);
+      if (label) label.textContent = isHidden ? `ON` : `OFF`;
+      if (notice) notice.hidden = !isHidden;
+      if (fields) fields.hidden = isHidden;
+    }
+
+    /* Report Form Validation & Submission */
+    function setFieldError(inputId, errId, msg) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (input) input.classList.toggle(`has-error`, Boolean(msg));
+      if (err) {
+        err.textContent = msg || ``;
+        err.hidden = !msg;
+      }
+    }
+
+    function generateNextRefNumber() {
+      let maxNum = 423;
+      appState.complaints.forEach((c) => {
+        const parts = String(c.ref || ``).split(`-`);
+        const n = parseInt(parts[parts.length - 1], 10);
+        if (!Number.isNaN(n) && n > maxNum) maxNum = n;
+      });
+      return `CSL-2026-${String(maxNum + 1).padStart(4, `0`)}`;
+    }
+
+    async function handleReportSubmit(event) {
+      event.preventDefault();
+      const titleEl = document.getElementById(`input-issue-title`);
+      const catEl = document.getElementById(`input-category`);
+      const descEl = document.getElementById(`input-description`);
+      const provEl = document.getElementById(`select-province`);
+      const distEl = document.getElementById(`select-district`);
+      const councilEl = document.getElementById(`select-council`);
+      const addrEl = document.getElementById(`input-street-address`);
+      const anonEl = document.getElementById(`toggle-hide-identity`);
+      const repNameEl = document.getElementById(`input-reporter-name`);
+      const repContactEl = document.getElementById(`input-reporter-contact`);
+      const formErr = document.getElementById(`report-form-error`);
+
+      const title = titleEl ? titleEl.value.trim() : ``;
+      const description = descEl ? descEl.value.trim() : ``;
+      const province = provEl ? provEl.value : ``;
+      const district = distEl ? distEl.value : ``;
+      const council = councilEl ? councilEl.value : ``;
+      const streetAddress = addrEl ? addrEl.value.trim() : ``;
+
+      let valid = true;
+      if (title.length < 5) {
+        setFieldError(`input-issue-title`, `err-issue-title`, `Enter a descriptive issue title (at least 5 characters).`);
+        valid = false;
+      } else {
+        setFieldError(`input-issue-title`, `err-issue-title`, ``);
+      }
+
+      if (description.length < 15) {
+        setFieldError(`input-description`, `err-description`, `Provide at least 15 characters describing the maintenance issue.`);
+        valid = false;
+      } else {
+        setFieldError(`input-description`, `err-description`, ``);
+      }
+
+      if (!province) {
+        setFieldError(`select-province`, `err-province`, `Select a province.`);
+        valid = false;
+      } else {
+        setFieldError(`select-province`, `err-province`, ``);
+      }
+
+      if (!district) {
+        setFieldError(`select-district`, `err-district`, `Select a district.`);
+        valid = false;
+      } else {
+        setFieldError(`select-district`, `err-district`, ``);
+      }
+
+      if (!council) {
+        setFieldError(`select-council`, `err-council`, `Select a municipal council.`);
+        valid = false;
+      } else {
+        setFieldError(`select-council`, `err-council`, ``);
+      }
+
+      if (streetAddress.length < 4) {
+        setFieldError(`input-street-address`, `err-street-address`, `Enter the street address or nearest landmark.`);
+        valid = false;
+      } else {
+        setFieldError(`input-street-address`, `err-street-address`, ``);
+      }
+
+      if (!valid) {
+        if (formErr) {
+          formErr.textContent = `Please complete all highlighted required fields before submitting.`;
+          formErr.hidden = false;
+        }
+        return;
+      }
+      if (formErr) formErr.hidden = true;
+
+      const isAnon = Boolean(anonEl && anonEl.checked);
+      const refCode = generateNextRefNumber();
+      const timestamp = nowFormatted();
+      const reporterName = isAnon
+        ? `Anonymous Citizen`
+        : ((repNameEl && repNameEl.value.trim()) || `Verified Citizen`);
+      const reporterContact = isAnon
+        ? `Hidden`
+        : ((repContactEl && repContactEl.value.trim()) || `Not provided`);
+
+      const newCase = {
+        ref: refCode,
+        title: title,
+        category: catEl ? catEl.value : `Waste & Sanitation`,
+        description: description,
+        province: province,
+        district: district,
+        council: council,
+        streetAddress: streetAddress,
+        lat: appState.pinLat,
+        lng: appState.pinLng,
+        hideIdentity: isAnon,
+        reporterName: reporterName,
+        reporterContact: reporterContact,
+        photoName: appState.draftPhotoName,
+        photoMeta: appState.draftPhotoMeta,
+        status: `Received`,
+        assignedUnit: `Unassigned`,
+        assignedOfficer: `Pending Assignment`,
+        createdAt: timestamp,
+        history: [
+          {
+            stage: `Received`,
+            timestamp: timestamp,
+            actor: isAnon ? `Citizen Portal (Anonymous)` : `Citizen Portal`,
+            note: `Complaint logged for ${council} at GPS (${appState.pinLat.toFixed(4)}, ${appState.pinLng.toFixed(4)}).`
+          }
+        ]
+      };
+
+      appState.complaints.unshift(newCase);
+      appState.lastSubmittedRef = refCode;
+      appState.selectedTrackerRef = refCode;
+      appState.selectedAdminRef = refCode;
+
+      await persistState();
+      renderOverviewMetrics();
+
+      const banner = document.getElementById(`report-submission-banner`);
+      const refEcho = document.getElementById(`submitted-ref-code`);
+      const titleEcho = document.getElementById(`submitted-title-echo`);
+      if (refEcho) refEcho.textContent = refCode;
+      if (titleEcho) titleEcho.textContent = title;
+      if (banner) {
+        banner.hidden = false;
+        banner.scrollIntoView({ behavior: `smooth`, block: `nearest` });
+      }
+
+      resetReportFormFieldsOnly();
+    }
+
+    function resetReportFormFieldsOnly() {
+      const titleEl = document.getElementById(`input-issue-title`);
+      const descEl = document.getElementById(`input-description`);
+      const addrEl = document.getElementById(`input-street-address`);
+      const repNameEl = document.getElementById(`input-reporter-name`);
+      const repContactEl = document.getElementById(`input-reporter-contact`);
+      const anonEl = document.getElementById(`toggle-hide-identity`);
+      const charCount = document.getElementById(`desc-char-count`);
+
+      if (titleEl) titleEl.value = ``;
+      if (descEl) descEl.value = ``;
+      if (addrEl) addrEl.value = ``;
+      if (repNameEl) repNameEl.value = ``;
+      if (repContactEl) repContactEl.value = ``;
+      if (charCount) charCount.textContent = `0 / 800`;
+      if (anonEl) {
+        anonEl.checked = false;
+        handleHideIdentityToggle(false);
+      }
+      clearUploadedPhoto();
+    }
+
+    function resetReportForm() {
+      resetReportFormFieldsOnly();
+      setFieldError(`input-issue-title`, `err-issue-title`, ``);
+      setFieldError(`input-description`, `err-description`, ``);
+      setFieldError(`input-street-address`, `err-street-address`, ``);
+      const formErr = document.getElementById(`report-form-error`);
+      if (formErr) formErr.hidden = true;
+      snapPinToCouncil();
+    }
+
+    function trackSubmittedComplaint() {
+      if (appState.lastSubmittedRef) {
+        appState.selectedTrackerRef = appState.lastSubmittedRef;
+      }
+      switchView(`tracker`);
+    }
+
+    /* ============================================================
+       COMPLAINT STATUS TRACKER
+       ============================================================ */
+    function getStatusBadgeClass(status) {
+      if (status === `Assigned`) return `status-pill status-assigned`;
+      if (status === `Updated`) return `status-pill status-updated`;
+      if (status === `Resolved`) return `status-pill status-resolved`;
+      return `status-pill status-received`;
+    }
+
+    function renderTrackerQuickChips() {
+      const container = document.getElementById(`tracker-quick-chips`);
+      if (!container) return;
+      const items = appState.complaints.slice(0, 8);
+      container.innerHTML = items.map((c) => {
+        const activeCls = c.ref === appState.selectedTrackerRef ? `is-selected` : ``;
+        return `<button type="button" class="ref-chip ${activeCls}" onclick="selectTrackerChip('${c.ref}')">${c.ref}</button>`;
+      }).join(``);
+    }
+
+    function selectTrackerChip(refCode) {
+      appState.selectedTrackerRef = refCode;
+      const input = document.getElementById(`input-tracker-ref`);
+      if (input) input.value = refCode;
+      renderTrackerQuickChips();
+      lookupTrackerRef(refCode);
+    }
+
+    function handleTrackerSearch(event) {
+      event.preventDefault();
+      const input = document.getElementById(`input-tracker-ref`);
+      const query = input ? input.value.trim().toUpperCase() : ``;
+      if (!query) return;
+      appState.selectedTrackerRef = query;
+      renderTrackerQuickChips();
+      lookupTrackerRef(query);
+    }
+
+    function lookupTrackerRef(refCode) {
+      const input = document.getElementById(`input-tracker-ref`);
+      const card = document.getElementById(`tracker-result-card`);
+      const notFound = document.getElementById(`tracker-not-found`);
+      const missingEcho = document.getElementById(`tracker-missing-ref`);
+
+      if (input && !input.value.trim() && refCode) {
+        input.value = refCode;
+      }
+
+      const found = appState.complaints.find((c) => c.ref.toUpperCase() === String(refCode || ``).toUpperCase());
+      if (!found) {
+        if (card) card.hidden = true;
+        if (notFound) notFound.hidden = false;
+        if (missingEcho) missingEcho.textContent = refCode || `(empty)`;
+        return;
+      }
+
+      if (notFound) notFound.hidden = true;
+      if (card) card.hidden = false;
+
+      const elRef = document.getElementById(`tr-ref-label`);
+      const elTitle = document.getElementById(`tr-title`);
+      const elCat = document.getElementById(`tr-category-tag`);
+      const elPriv = document.getElementById(`tr-privacy-tag`);
+      const elPill = document.getElementById(`tr-status-pill`);
+      const elDesc = document.getElementById(`tr-description`);
+      const elCouncil = document.getElementById(`tr-council`);
+      const elProvDist = document.getElementById(`tr-province-district`);
+      const elAddr = document.getElementById(`tr-address`);
+      const elGps = document.getElementById(`tr-gps`);
+      const elUnit = document.getElementById(`tr-assigned-unit`);
+      const elReporter = document.getElementById(`tr-reporter-display`);
+      const elPhoto = document.getElementById(`tr-photo-info`);
+      const elCreated = document.getElementById(`tr-created-at`);
+      const elTimeline = document.getElementById(`tr-timeline-list`);
+
+      if (elRef) elRef.textContent = found.ref;
+      if (elTitle) elTitle.textContent = found.title;
+      if (elCat) elCat.textContent = found.category;
+      if (elPriv) elPriv.textContent = found.hideIdentity ? `Identity Hidden (Anonymous)` : `Standard Report`;
+      if (elPill) {
+        elPill.className = getStatusBadgeClass(found.status);
+        elPill.textContent = found.status;
+      }
+      if (elDesc) elDesc.textContent = found.description;
+      if (elCouncil) elCouncil.textContent = found.council;
+      if (elProvDist) elProvDist.textContent = `${found.district} District · ${found.province}`;
+      if (elAddr) elAddr.textContent = found.streetAddress;
+      if (elGps) elGps.textContent = `GPS ${Number(found.lat).toFixed(4)}° N, ${Number(found.lng).toFixed(4)}° E`;
+      if (elUnit) elUnit.textContent = `${found.assignedUnit} (${found.assignedOfficer})`;
+      if (elReporter) elReporter.textContent = `Reporter: ${found.reporterName}`;
+      if (elPhoto) elPhoto.textContent = found.photoName ? `${found.photoName}` : `No photo attached`;
+      if (elCreated) elCreated.textContent = `Logged: ${found.createdAt}`;
+
+      // Milestone progress step classes
+      const currentIdx = STATUS_ORDER.indexOf(found.status);
+      STATUS_ORDER.forEach((stageName, idx) => {
+        const msBox = document.getElementById(`ms-${stageName}`);
+        const msTime = document.getElementById(`ms-time-${stageName}`);
+        if (msBox) {
+          msBox.classList.remove(`is-done`, `is-current`);
+          if (idx < currentIdx || (found.status === `Resolved` && idx === 3)) {
+            msBox.classList.add(`is-done`);
+          } else if (idx === currentIdx) {
+            msBox.classList.add(`is-current`);
+          }
+        }
+        if (msTime) {
+          const entry = found.history.find((h) => h.stage === stageName);
+          msTime.textContent = entry ? entry.timestamp : `Pending`;
+        }
+      });
+
+      if (elTimeline) {
+        elTimeline.innerHTML = found.history.slice().reverse().map((h) => `
+          <div class="timeline-entry">
+            <div>
+              <div class="mono-value" style="font-size:0.8125rem; font-weight:600;">${h.timestamp}</div>
+              <div class="mono-label">${h.stage}</div>
+            </div>
+            <div>
+              <div style="font-weight:600; font-size:0.9375rem;">${h.actor}</div>
+              <p style="margin: var(--space-xs) 0 0 0; color: var(--on-surface-variant); font-size:0.9375rem;">${h.note}</p>
+            </div>
+          </div>
+        `).join(``);
+      }
+    }
+
+    /* ============================================================
+       ADMIN DASHBOARD
+       ============================================================ */
+    function renderAdminDashboard() {
+      const all = appState.complaints;
+      const rec = all.filter((c) => c.status === `Received`).length;
+      const asg = all.filter((c) => c.status === `Assigned`).length;
+      const upd = all.filter((c) => c.status === `Updated`).length;
+      const res = all.filter((c) => c.status === `Resolved`).length;
+
+      const elR = document.getElementById(`adm-kpi-received`);
+      const elA = document.getElementById(`adm-kpi-assigned`);
+      const elU = document.getElementById(`adm-kpi-updated`);
+      const elD = document.getElementById(`adm-kpi-resolved`);
+      if (elR) elR.textContent = String(rec);
+      if (elA) elA.textContent = String(asg);
+      if (elU) elU.textContent = String(upd);
+      if (elD) elD.textContent = String(res);
+
+      // Workload bar chart
+      const barsEl = document.getElementById(`adm-status-bars`);
+      const maxVal = Math.max(1, rec, asg, upd, res);
+      if (barsEl) {
+        const series = [
+          { label: `Received`, val: rec, cls: `is-dark` },
+          { label: `Assigned`, val: asg, cls: `` },
+          { label: `Updated`, val: upd, cls: `` },
+          { label: `Resolved`, val: res, cls: `is-green` }
+        ];
+        barsEl.innerHTML = series.map((s) => {
+          const widthPct = Math.round((s.val / maxVal) * 100);
+          return `<div class="bar-row">
+            <span class="mono-label">${s.label}</span>
+            <div class="bar-track"><div class="bar-fill ${s.cls}" style="width:${widthPct}%"></div></div>
+            <span class="mono-value" style="text-align:right; font-weight:600;">${s.val}</span>
+          </div>`;
+        }).join(``);
+      }
+
+      // Apply filters
+      const fStatusEl = document.getElementById(`adm-filter-status`);
+      const fProvEl = document.getElementById(`adm-filter-province`);
+      const fQueryEl = document.getElementById(`adm-filter-query`);
+
+      const fStatus = fStatusEl ? fStatusEl.value : `ALL`;
+      const fProv = fProvEl ? fProvEl.value : `ALL`;
+      const fQuery = fQueryEl ? fQueryEl.value.trim().toLowerCase() : ``;
+
+      const filtered = all.filter((c) => {
+        if (fStatus !== `ALL` && c.status !== fStatus) return false;
+        if (fProv !== `ALL` && c.province !== fProv) return false;
+        if (fQuery) {
+          const hay = `${c.ref} ${c.title} ${c.council} ${c.district} ${c.assignedUnit}`.toLowerCase();
+          if (!hay.includes(fQuery)) return false;
+        }
+        return true;
+      });
+
+      const tbody = document.getElementById(`adm-table-body`);
+      if (tbody) {
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" style="padding: var(--space-lg); color: var(--on-surface-variant);">No complaints match the current filter criteria.</td></tr>`;
+        } else {
+          tbody.innerHTML = filtered.map((c) => {
+            const selCls = c.ref === appState.selectedAdminRef ? `is-selected` : ``;
+            return `<tr class="${selCls}" onclick="selectAdminCase('${c.ref}')">
+              <td class="mono-value" style="white-space:nowrap; font-weight:600;">${c.ref}</td>
+              <td>
+                <div style="font-weight:600; color: var(--on-surface);">${c.title}</div>
+                <div class="field-hint">${c.council} · ${c.district}</div>
+              </td>
+              <td><span class="${getStatusBadgeClass(c.status)}">${c.status}</span></td>
+              <td style="font-size:0.8125rem;">${c.assignedUnit}</td>
+            </tr>`;
+          }).join(``);
+        }
+      }
+
+      populateAdminEditor(appState.selectedAdminRef);
+    }
+
+    function selectAdminCase(refCode) {
+      appState.selectedAdminRef = refCode;
+      const saveBanner = document.getElementById(`adm-save-banner`);
+      if (saveBanner) saveBanner.hidden = true;
+      renderAdminDashboard();
+    }
+
+    function populateAdminEditor(refCode) {
+      const emptyBox = document.getElementById(`adm-empty-selection`);
+      const editor = document.getElementById(`adm-editor-panel`);
+      const refLabel = document.getElementById(`adm-selected-ref`);
+
+      const item = appState.complaints.find((c) => c.ref === refCode);
+      if (!item) {
+        if (emptyBox) emptyBox.hidden = false;
+        if (editor) editor.hidden = true;
+        if (refLabel) refLabel.textContent = `SELECT A CASE`;
+        return;
+      }
+
+      if (emptyBox) emptyBox.hidden = true;
+      if (editor) editor.hidden = false;
+      if (refLabel) refLabel.textContent = item.ref;
+
+      const elCouncil = document.getElementById(`adm-ed-council`);
+      const elPill = document.getElementById(`adm-ed-status-pill`);
+      const elTitle = document.getElementById(`adm-ed-title`);
+      const elDesc = document.getElementById(`adm-ed-desc`);
+      const elMeta = document.getElementById(`adm-ed-meta`);
+      const unitSelect = document.getElementById(`adm-assign-unit`);
+      const officerInput = document.getElementById(`adm-assign-officer`);
+      const statusSelect = document.getElementById(`adm-status-select`);
+      const noteArea = document.getElementById(`adm-officer-note`);
+
+      if (elCouncil) elCouncil.textContent = item.council;
+      if (elPill) {
+        elPill.className = getStatusBadgeClass(item.status);
+        elPill.textContent = item.status;
+      }
+      if (elTitle) elTitle.textContent = item.title;
+      if (elDesc) elDesc.textContent = item.description;
+      if (elMeta) {
+        const privacyText = item.hideIdentity ? `ANONYMOUS` : item.reporterName;
+        elMeta.textContent = `${item.streetAddress} · GPS ${Number(item.lat).toFixed(4)}, ${Number(item.lng).toFixed(4)} · ${privacyText}`;
+      }
+      if (unitSelect) unitSelect.value = item.assignedUnit || `Unassigned`;
+      if (officerInput) officerInput.value = item.assignedOfficer === `Pending Assignment` ? `` : (item.assignedOfficer || ``);
+      if (statusSelect) statusSelect.value = item.status;
+      if (noteArea) noteArea.value = ``;
+    }
+
+    async function saveAdminCaseUpdate() {
+      const item = appState.complaints.find((c) => c.ref === appState.selectedAdminRef);
+      if (!item) return;
+
+      const unitSelect = document.getElementById(`adm-assign-unit`);
+      const officerInput = document.getElementById(`adm-assign-officer`);
+      const statusSelect = document.getElementById(`adm-status-select`);
+      const noteArea = document.getElementById(`adm-officer-note`);
+      const saveBanner = document.getElementById(`adm-save-banner`);
+
+      const newUnit = unitSelect ? unitSelect.value : item.assignedUnit;
+      const newOfficer = (officerInput && officerInput.value.trim()) ? officerInput.value.trim() : `Duty Officer`;
+      const newStatus = statusSelect ? statusSelect.value : item.status;
+      const customNote = noteArea ? noteArea.value.trim() : ``;
+
+      item.assignedUnit = newUnit;
+      item.assignedOfficer = newUnit === `Unassigned` ? `Pending Assignment` : newOfficer;
+      item.status = newStatus;
+
+      const ts = nowFormatted();
+      const autoNote = customNote || `Status set to ${newStatus}; responsibility assigned to ${item.assignedUnit} (${item.assignedOfficer}).`;
+      item.history.push({
+        stage: newStatus,
+        timestamp: ts,
+        actor: `${item.council} · ${item.assignedOfficer}`,
+        note: autoNote
+      });
+
+      await persistState();
+      renderOverviewMetrics();
+      renderAdminDashboard();
+
+      if (saveBanner) saveBanner.hidden = false;
+    }
+
+    function openSelectedInTracker() {
+      if (appState.selectedAdminRef) {
+        appState.selectedTrackerRef = appState.selectedAdminRef;
+      }
+      switchView(`tracker`);
+    }
+
+    function clearAdminFilters() {
+      const fStatus = document.getElementById(`adm-filter-status`);
+      const fProv = document.getElementById(`adm-filter-province`);
+      const fQuery = document.getElementById(`adm-filter-query`);
+      if (fStatus) fStatus.value = `ALL`;
+      if (fProv) fProv.value = `ALL`;
+      if (fQuery) fQuery.value = ``;
+      renderAdminDashboard();
+    }
+
+    async function handleResetDemoData(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirm Reset Demo Data`;
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `Reset Demo Data`;
+      }
+      appState.complaints = cloneSeedComplaints();
+      appState.selectedTrackerRef = appState.complaints[0].ref;
+      appState.selectedAdminRef = appState.complaints[0].ref;
+      await persistState();
+      renderOverviewMetrics();
+      renderAdminDashboard();
+    }
+
+    function exportComplaintsCsv() {
+      const headers = [`Reference`, `Title`, `Category`, `Status`, `Province`, `District`, `Municipal Council`, `Street Address`, `Latitude`, `Longitude`, `Assigned Unit`, `Assigned Officer`, `Reporter`, `Created At`];
+      const escapeCsv = (val) => `"${String(val || ``).replace(/"/g, `""`)}"`;
+      const rows = appState.complaints.map((c) => [
+        c.ref, c.title, c.category, c.status, c.province, c.district, c.council,
+        c.streetAddress, c.lat, c.lng, c.assignedUnit, c.assignedOfficer,
+        c.hideIdentity ? `Anonymous` : c.reporterName, c.createdAt
+      ].map(escapeCsv).join(`,`));
+      const csvContent = [headers.join(`,`), ...rows].join(`\n`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: csvContent,
+          contentType: `text/csv`,
+          encoding: `UTF-8`,
+          filename: `clean-sri-lanka-complaints.csv`
+        });
+      }
+    }
+
+    /* ============================================================
+       INITIALIZATION & STATE HYDRATION
+       ============================================================ */
+    async function initApp() {
+      appState.complaints = cloneSeedComplaints();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && Array.isArray(saved.complaints) && saved.complaints.length > 0) {
+            appState.complaints = saved.complaints;
+            if (saved.selectedTrackerRef) appState.selectedTrackerRef = saved.selectedTrackerRef;
+            if (saved.selectedAdminRef) appState.selectedAdminRef = saved.selectedAdminRef;
+          }
+        } catch (err) {
+          // Use seed data if state read is unavailable
+        }
+      }
+
+      populateProvinceDropdowns();
+
+      const descEl = document.getElementById(`input-description`);
+      const charCount = document.getElementById(`desc-char-count`);
+      if (descEl && charCount) {
+        descEl.addEventListener(`input`, function () {
+          charCount.textContent = `${descEl.value.length} / 800`;
+        });
+      }
+
+      renderOverviewMetrics();
+      // Strictly ensure ONLY Overview is visible on initial load
+      switchView(`overview`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
